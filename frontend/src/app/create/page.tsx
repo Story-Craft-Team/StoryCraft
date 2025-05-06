@@ -1,4 +1,4 @@
-import CreatePage from "@/pages/Create";
+import { CreatePage } from "@/views";
 
 export default function Create() {
   return <CreatePage />;

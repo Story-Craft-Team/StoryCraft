@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./(deffault)/globals.scss";
-import Header from "@/widgets/Header";
+import Header from "@/widgets/Header/ui";
 
 export const metadata: Metadata = {
   title: "Story Craft",
