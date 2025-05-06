@@ -1,0 +1,42 @@
+.story {
+  border: 1px solid #313131;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 20px;
+  height: 200px;
+  width: 590px;
+  position: relative;
+}
+
+.story:hover {
+  cursor: pointer;
+  box-shadow: 0px 0 20px rgba(0, 0, 0, 1);
+  transition: box-shadow 0.15s ease-in-out;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.img {
+  border-radius: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.3;
+}
+
+.author {
+  font-size: 16px;
+  margin: 0;
+}
+
+.grade {
+  font-size: 16px;
+  margin-top: 100px;
+}

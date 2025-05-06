@@ -1,0 +1,27 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  border-bottom: 1px solid #ccc;
+  width: 100%;
+}
+
+.left {
+  text-align: center;
+  h1 {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0;
+  }
+  p {
+    font-size: 17px;
+    margin: 0;
+  }
+}
+
+.right {
+  display: flex;
+  gap: 10px;
+  font-size: 40px;
+}
