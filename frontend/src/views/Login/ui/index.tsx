@@ -34,8 +34,8 @@ export default function Login(){
                 <h1>Авторизация</h1>
                 <input placeholder="Ваш логин" value={username} onChange={(e:any) => setUsername(e.target.value)} className={s.input_style}/>
                 <input type="password" placeholder="Ваш пароль" value={password} onChange={(e:any) => setPassword(e.target.value)} className={s.input_style}/>
-                <h5 className={s.text}>НЕ СТАВЬТЕ СВОЙ НАСТОЯЩИЙ ПАРОЛЬ!</h5>
-                <button className={s.alert}><Link href="/">Войти</Link></button>
+                <h5 className={s.alert}>НЕ СТАВЬТЕ СВОЙ НАСТОЯЩИЙ ПАРОЛЬ!</h5>
+                <button className={s.btn}><Link href="/">Войти</Link></button>
             </form>
         </div>
     );
