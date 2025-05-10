@@ -2,22 +2,17 @@
 
 import React, { useState } from 'react';
 import s from './Registration.module.scss'
-
-type User = {
-    login: string
-    password: string
-}
-
+import type {User} from '@/shared/types'
 export default function Registration(){
-    const [login, setLogin] = useState("")
-    const [password, setPassword] = useState("")
-    const [repassword, setRepassword] = useState("")
+    const [username, setUsername] = useState<string>("")
+    const [password, setPassword] = useState<string>("")
+    const [rePassword, setRePassword] = useState<string>("")
 
-    function RegistrationSubmit(e: any){
+    function RegistrationSubmit(e: React.FormEvent){ //установление данных зарегистрировавшигося пользователя
         e.preventDefault()
-        if(repassword == password){
+        if(rePassword === password){
             const userData:User ={
-                login: login,
+                username: username,
                 password: password
             }
             localStorage.setItem("regUserData", JSON.stringify(userData))
@@ -28,13 +23,13 @@ export default function Registration(){
     }
     
     return (
-        <div className={s.firstContainer}>
+        <div className={s.container}>
             <form className={s.mainForm} onSubmit={RegistrationSubmit}>
                 <h1>Регистрация</h1>
-                <input value={login} placeholder="Придумайте логин" className={s.input_style} onChange={(e:any) => setLogin(e.target.value)}/>
-                <input value={password} placeholder="Придумайте пароль" className={s.input_style} onChange={(e:any) => setPassword(e.target.value)}/>
-                <input value={repassword} placeholder="Повторите пароль" className={s.input_style} onChange={(e:any) => setRepassword(e.target.value)}/>
-                <h5 className={s.text}>НЕ СТАВЬТЕ СВОЙ НАСТОЯЩИЙ ПАРОЛЬ!</h5>
+                <input value={username} placeholder="Придумайте логин" className={s.input_style} onChange={(e:any) => setUsername(e.target.value)}/>
+                <input type="password" value={password} placeholder="Придумайте пароль" className={s.input_style} onChange={(e:any) => setPassword(e.target.value)}/>
+                <input type="password" value={rePassword} placeholder="Повторите пароль" className={s.input_style} onChange={(e:any) => setRePassword(e.target.value)}/>
+                <h5 className={s.alert}>НЕ СТАВЬТЕ СВОЙ НАСТОЯЩИЙ ПАРОЛЬ!</h5>
                 <button className={s.btn}>Зарегестрироваться</button>
             </form>
         </div>
