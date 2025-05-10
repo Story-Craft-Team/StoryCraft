@@ -8,6 +8,11 @@ type StoryEditorAction = {
   setImage : (image: IStoryEditor["image"]) => void
   setIsPublic : (isPublic: IStoryEditor["isPublic"]) => void
   setScenes : (scenes: IStoryEditor["scenes"]) => void
+
+  addNewScene : () => void
+  addNewChoice : (sceneId: number) => void
+  setSceneTitle : (sceneId: number, title: string) => void
+  getSceneTitle : (sceneId: number) => string
 }
 
 export type StoryEditorSlice = IStoryEditor & StoryEditorAction;

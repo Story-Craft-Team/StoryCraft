@@ -1,8 +1,8 @@
-import { UserSlice } from "@/shared/lib/types";
+import { Store, UserSlice } from "@/shared/lib/types";
 import { StateCreator } from "zustand";
 
 export const authSlice: StateCreator<
-  UserSlice,
+  Store,
   [["zustand/immer", never]],
   [],
   UserSlice

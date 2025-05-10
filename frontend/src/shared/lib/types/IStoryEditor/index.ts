@@ -1,3 +1,5 @@
+import { IScene } from "../";
+
 export interface IStoryEditor {
   title: string;
   author: string;
@@ -5,5 +7,5 @@ export interface IStoryEditor {
   description: string;
   image: string;
   isPublic: boolean;
-  scenes: string[];
+  scenes: IScene[];
 }
