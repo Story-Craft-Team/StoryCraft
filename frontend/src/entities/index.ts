@@ -1,2 +1,2 @@
-export { default as ChapterTitle } from './ChapterTitle';
+export { default as SceneTitle } from './SceneTitle';
 export { default as TextInput } from './TextInput';

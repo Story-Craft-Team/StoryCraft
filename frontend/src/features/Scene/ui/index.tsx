@@ -1,17 +1,17 @@
 import TextInput from "@/entities/TextInput/ui";
-import s from "./Chapter.module.scss";
+import s from "./Scene.module.scss";
 
 interface Props {
   id: number;
 }
 
-export default function Chapter({ id }: Props) {
+export default function Scene({ id }: Props) {
   return (
-    <div className={s.chapter_container}>
-      <div className={s.chapter_title}>
-        <h2>Chapter {id}</h2>
+    <div className={s.sceneiner}>
+      <div className={s.scene_title}>
+        <h2>Scene {id}</h2>
       </div>
-      <div className={s.chapter}>
+      <div className={s.scene}>
       <TextInput />
         <div className={s.actions_container}>
           <div className={s.actions}>

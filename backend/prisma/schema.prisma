@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Модель User
+model User {
+  id              Int       @id @default(autoincrement()) // Уникальный идентификатор
+  username        String    @unique // Уникальное имя пользователя
+  email           String    @unique // Уникальный email
+  role            Role // Роль пользователя (с использованием перечисления)
+  createdAt       DateTime  @default(now()) // Дата создания
+  updatedAt       DateTime  @updatedAt // Дата последнего обновления
+  isVerified      Boolean   @default(false) // Подтвержден ли пользователь
+  displayName     String? // Опциональное имя для отображения
+  bio             String? // Опциональное поле для био
+  avatarUrl       String? // Опциональная ссылка на аватарку
+  favoriteStories String[]  @default([]) // Массив избранных историй
+  followedUsers   String[]  @default([]) // Массив подписок
+  followingUsers  String[]  @default([]) // Массив тех, кто подписан на пользователя
+  settings        Settings? // Настройки пользователя (ссылка на модель Settings)
+}
+
+// Перечисление для роли пользователя
+enum Role {
+  admin
+  moderator
+  reader
+}
+
+// Модель для настроек пользователя
+model Settings {
+  id       Int     @id @default(autoincrement()) // Уникальный идентификатор для настроек
+  theme    String  @default("dark") // Тема (по умолчанию dark)
+  language String? // Язык (опционально)
+  userId   Int     @unique // Уникальный идентификатор пользователя для связи с таблицей User
+  user     User    @relation(fields: [userId], references: [id]) // Связь с пользователем
+}
+
+model Choice {
+  id        Int     @id @default(autoincrement()) // Уникальный идентификатор
+  text      String // Текст выбора
+  nextScene Int // Ссылка на следующую сцену
+  access    Boolean @default(true) // Доступен ли выбор
+  Scene     Scene?  @relation(fields: [sceneId], references: [id])
+  sceneId   Int?
+}
+
+model Scene {
+  id      Int      @id @default(autoincrement()) // Уникальный идентификатор
+  title   String // Название сцены
+  image   String? // Опциональная ссылка на изображение
+  isEnd   Boolean  @default(false) // Конечная ли сцена
+  choices Choice[] // Массив выборов
+  Story   Story?   @relation(fields: [storyId], references: [id])
+  storyId Int?
+}
+
+model Story {
+  id        Int      @id @default(autoincrement()) // Уникальный идентификатор
+  title     String // Название истории
+  author    String // Автор истории
+  authorId  Int // Уникальный идентификатор автора
+  scenes    Scene[] // Массив сцен
+  createdAt DateTime @default(now()) // Дата создания
+  updatedAt DateTime @updatedAt // Дата последнего обновления
+}
