@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { healthRes } from './shared/types';
+import { HealthRes } from './shared/types';
 
 @Injectable()
 export class AppService {
-  health(): healthRes {
+  health(): HealthRes {
     try {
       return { response: 200, status: "all good" };
     } catch (error) {

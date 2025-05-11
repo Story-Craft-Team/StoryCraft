@@ -1,1 +1,2 @@
-export {type response as healthRes } from "./health";
+export {type response as HealthRes } from "./health";
+export {type QueryId } from "./queryId";
