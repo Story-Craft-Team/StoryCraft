@@ -4,28 +4,30 @@ import {
   IsString,
   IsUrl,
   IsBoolean,
-  IsArray,
   ValidateNested,
   IsEnum,
+  MaxLength,
+  MinLength,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty, ApiTags } from '@nestjs/swagger'; // Import Swagger decorators
 import { CreateUserSettingsDto } from './create-user-settings.dto';
 
-@ApiTags('Users')
 export class CreateUserDto {
   @ApiProperty({
     description: 'Username of the user',
     type: String,
-    example: 'john_doe', // Example username
+    example: 'john_doe',
   })
   @IsString()
+  @MaxLength(30)
+  @MinLength(3)
   username: string;
 
   @ApiProperty({
     description: 'Email address of the user',
     type: String,
-    example: 'john.doe@example.com', // Example email
+    example: 'john.doe@example.com',
   })
   @IsEmail()
   email: string;
@@ -33,77 +35,47 @@ export class CreateUserDto {
   @ApiProperty({
     description: 'Indicates whether the user is verified',
     type: Boolean,
-    example: true, // Example value for verification status
+    example: true,
   })
   @IsBoolean()
-  isVerified: boolean;
+  isVerified?: boolean;
 
   @ApiProperty({
     description: 'Display name of the user (optional)',
     type: String,
-    example: 'John Doe', // Example display name
-    required: false, // Mark as optional
+    example: 'John Doe',
+    required: false,
   })
   @IsOptional()
   @IsString()
+  @MaxLength(60)
   displayName?: string;
 
   @ApiProperty({
     description: 'Short biography of the user (optional)',
     type: String,
-    example: 'Avid reader and tech enthusiast', // Example bio
+    example: 'Avid reader and tech enthusiast',
     required: false, // Mark as optional
   })
   @IsOptional()
   @IsString()
+  @MaxLength(300)
   bio?: string;
 
   @ApiProperty({
     description: 'URL to the user\'s avatar image (optional)',
     type: String,
-    example: 'https://example.com/avatar.jpg', // Example avatar URL
-    required: false, // Mark as optional
+    example: 'https://example.com/avatar.jpg',
+    required: false,
   })
   @IsOptional()
   @IsUrl()
+  @MaxLength(200)
   avatarUrl?: string;
 
   @ApiProperty({
-    description: 'List of the user\'s favorite stories (optional)',
-    type: [String],
-    example: ['Story1', 'Story2'], // Example favorite stories
-    required: false, // Mark as optional
-  })
-  @IsOptional()
-  @IsArray()
-  @IsString({ each: true })
-  favoriteStories?: string[];
-
-  @ApiProperty({
-    description: 'List of users followed by the user (optional)',
-    type: [String],
-    example: ['user1', 'user2'], // Example followed users
-    required: false, // Mark as optional
-  })
-  @IsOptional()
-  @IsArray()
-  @IsString({ each: true })
-  followedUsers?: string[];
-
-  @ApiProperty({
-    description: 'List of users following the user (optional)',
-    type: [String],
-    example: ['user3', 'user4'], // Example following users
-    required: false, // Mark as optional
-  })
-  @IsOptional()
-  @IsArray()
-  @IsString({ each: true })
-  followingUsers?: string[];
-
-  @ApiProperty({
     description: 'User settings',
-    type: CreateUserSettingsDto, // Reference to CreateUserSettingsDto
+    type: CreateUserSettingsDto,
   })
   @ValidateNested()
   @Type(() => CreateUserSettingsDto)

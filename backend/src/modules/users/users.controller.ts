@@ -1,8 +1,22 @@
-import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Patch,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody } from '@nestjs/swagger'; // Import necessary Swagger decorators
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiParam,
+  ApiBody,
+} from '@nestjs/swagger'; // Import necessary Swagger decorators
 
 @ApiTags('Users') // Group the endpoints under the 'Users' tag in Swagger UI
 @Controller('users')
@@ -30,6 +44,11 @@ export class UsersController {
     status: 200,
     description: 'Returns a list of users',
   })
+  @ApiResponse({ status: 400, description: 'Bad request' })
+  @ApiResponse({
+    status: 404,
+    description: 'No users found',
+  })
   findAll() {
     return this.usersService.findAll();
   }
@@ -41,6 +60,7 @@ export class UsersController {
     status: 200,
     description: 'Returns a user based on the provided ID',
   })
+  @ApiResponse({ status: 400, description: 'Bad request' })
   @ApiResponse({
     status: 404,
     description: 'User not found',
@@ -49,7 +69,7 @@ export class UsersController {
     return this.usersService.findOne(+id);
   }
 
-  @Put(':id')
+  @Patch(':id')
   @ApiOperation({ summary: 'Update an existing user' }) // Describes the operation
   @ApiParam({ name: 'id', type: 'string', description: 'User ID' }) // Describes the 'id' parameter
   @ApiBody({ type: UpdateUserDto }) // Describes the body type for the request

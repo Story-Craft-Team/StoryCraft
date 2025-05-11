@@ -1,7 +1,6 @@
 import { IsOptional, IsString } from 'class-validator';
 import { ApiProperty, ApiTags } from '@nestjs/swagger'; // Import Swagger decorators
 
-@ApiTags('Users')
 export class CreateUserSettingsDto {
   @ApiProperty({
     description: 'Theme preference of the user',
