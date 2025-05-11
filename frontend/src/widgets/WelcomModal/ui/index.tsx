@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import s from './modalWindow.module.scss'
 
-interface Props{
-    username: string
-}
-
-export default function WelcomModal({username}: Props){
+export default function WelcomModal(){
     const [windowVisible, setWindowVisible] = useState<boolean>(true)
+    const [username, setUsername] = useState<string>("");
+    useEffect(() => {   //getting authorized user data
+        const data = localStorage.getItem("userData");
+        if (data) {
+            setUsername(JSON.parse(data).username);
+        }
+    }, []);
 
     return (
         <div className={windowVisible? s.modalOverlay : s.containerUnVisible} onClick={() => windowVisible? setWindowVisible(false) : setWindowVisible(true)}>
