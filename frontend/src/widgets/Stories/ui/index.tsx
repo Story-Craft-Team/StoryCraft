@@ -3,6 +3,7 @@ import Story from "@/features/Story/ui";
 import s from "./Stories.module.scss";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { ModalNewUser, WelcomModal } from "@/widgets";
 export default function Stories() {
   const [username, setUsername] = useState<string>("")
   useEffect(() => { //получение данных авторизованного пользователя
@@ -13,7 +14,7 @@ export default function Stories() {
   }, []);
   return (
     <div className={s.stories}>
-      {localStorage.getItem('userData')? <h1 className={s.alert}>Приветствую, {username}</h1>: <h1 className={s.alert}>Пользователь не зарегистрирован <Link className={s.link_style} href="/auth/register">Зарегистрируйтесь</Link> или <Link className={s.link_style} href="/auth/login">Войдите</Link></h1>}
+      {localStorage.getItem('userData')? <WelcomModal username={username}/>: <ModalNewUser/>}
       <Story />
       <Story />
       <Story />
