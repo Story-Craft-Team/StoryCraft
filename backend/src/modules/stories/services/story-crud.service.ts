@@ -12,6 +12,7 @@ export class StoryCrudService {
     private readonly helpers: HelpersService,
   ) {}
 
+  // create
   async create(dto: CreateStoryDto): Promise<Story> {
     try {
       return await this.prisma.story.create({ data: dto });
@@ -20,6 +21,7 @@ export class StoryCrudService {
     }
   }
 
+  // findAll
   async findAll(): Promise<Story[]> {
     try {
       return await this.prisma.story.findMany();
@@ -30,6 +32,7 @@ export class StoryCrudService {
     }
   }
 
+  // findOne
   async findOne(id: number): Promise<Story> {
     try {
       return this.helpers.getThingOrThrow<Story>('story', id, 'Story');
@@ -38,6 +41,7 @@ export class StoryCrudService {
     }
   }
 
+  // update
   async update(id: number, dto: UpdateStoryDto): Promise<Story> {
     try {
       await this.helpers.getThingOrThrow<Story>('story', id, 'Story');
@@ -47,6 +51,7 @@ export class StoryCrudService {
     }
   }
 
+  // remove
   async remove(id: number): Promise<void> {
     try {
       await this.helpers.getThingOrThrow<Story>('story', id, 'Story');

@@ -10,7 +10,7 @@ import {
   MinLength,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { ApiProperty, ApiTags } from '@nestjs/swagger'; // Import Swagger decorators
+import { ApiProperty } from '@nestjs/swagger'; // Import Swagger decorators
 import { CreateUserSettingsDto } from './create-user-settings.dto';
 
 export class CreateUserDto {

@@ -18,6 +18,7 @@ export class UserCrudService {
 
   private readonly userInclude = { settings: true };
 
+  // create
   async create(dto: CreateUserDto): Promise<User> {
     const { settings, ...rest } = dto;
 
@@ -40,6 +41,7 @@ export class UserCrudService {
     }
   }
 
+  // findAll
   async findAll(): Promise<User[]> {
     try {
       return await this.prisma.user.findMany({
@@ -50,6 +52,7 @@ export class UserCrudService {
     }
   }
 
+  // findOne
   async findOne(id: number): Promise<User> {
     try {
       return this.helpers.getThingOrThrow<User>('user', id, 'User');
@@ -60,6 +63,7 @@ export class UserCrudService {
     }
   }
 
+  // update
   async update(id: number, dto: UpdateUserDto): Promise<User> {
     try {
       // Check if user exists before updating
@@ -87,6 +91,7 @@ export class UserCrudService {
     }
   }
 
+  // remove
   async remove(id: number): Promise<void> {
     try {
       // Check if user exists before deleting

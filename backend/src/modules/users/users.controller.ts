@@ -16,16 +16,16 @@ import {
   ApiResponse,
   ApiParam,
   ApiBody,
-} from '@nestjs/swagger'; // Import necessary Swagger decorators
+} from '@nestjs/swagger';
 
-@ApiTags('Users') // Group the endpoints under the 'Users' tag in Swagger UI
+@ApiTags('Users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  @ApiOperation({ summary: 'Create a new user' }) // Describes the operation
-  @ApiBody({ type: CreateUserDto }) // Describes the body type for the request
+  @ApiOperation({ summary: 'Create a new user' })
+  @ApiBody({ type: CreateUserDto })
   @ApiResponse({
     status: 201,
     description: 'The user has been successfully created.',
@@ -39,7 +39,7 @@ export class UsersController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Retrieve all users' }) // Describes the operation
+  @ApiOperation({ summary: 'Retrieve all users' })
   @ApiResponse({
     status: 200,
     description: 'Returns a list of users',
@@ -54,8 +54,8 @@ export class UsersController {
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Retrieve a single user by ID' }) // Describes the operation
-  @ApiParam({ name: 'id', type: 'string', description: 'User ID' }) // Describes the 'id' parameter
+  @ApiOperation({ summary: 'Retrieve a single user by ID' })
+  @ApiParam({ name: 'id', type: 'string', description: 'User ID' })
   @ApiResponse({
     status: 200,
     description: 'Returns a user based on the provided ID',
@@ -70,9 +70,9 @@ export class UsersController {
   }
 
   @Patch(':id')
-  @ApiOperation({ summary: 'Update an existing user' }) // Describes the operation
-  @ApiParam({ name: 'id', type: 'string', description: 'User ID' }) // Describes the 'id' parameter
-  @ApiBody({ type: UpdateUserDto }) // Describes the body type for the request
+  @ApiOperation({ summary: 'Update an existing user' })
+  @ApiParam({ name: 'id', type: 'string', description: 'User ID' })
+  @ApiBody({ type: UpdateUserDto })
   @ApiResponse({
     status: 200,
     description: 'User has been successfully updated.',
@@ -86,8 +86,8 @@ export class UsersController {
   }
 
   @Delete(':id')
-  @ApiOperation({ summary: 'Delete a user' }) // Describes the operation
-  @ApiParam({ name: 'id', type: 'string', description: 'User ID' }) // Describes the 'id' parameter
+  @ApiOperation({ summary: 'Delete a user' })
+  @ApiParam({ name: 'id', type: 'string', description: 'User ID' })
   @ApiResponse({
     status: 200,
     description: 'User has been successfully deleted.',

@@ -6,6 +6,7 @@ import { StoryCrudService } from './services/story-crud.service';
 @Injectable()
 export class StoriesService {
   constructor(private readonly storyCrud: StoryCrudService) {}
+  
   create(createStoryDto: CreateStoryDto) {
     return this.storyCrud.create(createStoryDto);
   }

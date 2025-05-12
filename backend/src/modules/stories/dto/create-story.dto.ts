@@ -1,5 +1,5 @@
-import { ApiProperty, ApiTags } from "@nestjs/swagger";
-import { IsString } from "class-validator";
+import { ApiProperty } from "@nestjs/swagger";
+import { IsNumber, IsString } from "class-validator";
 
 export class CreateStoryDto {
   @ApiProperty({
@@ -11,19 +11,11 @@ export class CreateStoryDto {
   title: string;
 
   @ApiProperty({
-    description: 'Author of the story',
-    type: String,
-    example: 'John Doe',
-  })
-  @IsString()
-  author: string;
-
-  @ApiProperty({
     description: 'Author ID of the story',
     type: Number,
     example: 1,
   })
-  @IsString()
+  @IsNumber()
   authorId: number;
 
   @ApiProperty({

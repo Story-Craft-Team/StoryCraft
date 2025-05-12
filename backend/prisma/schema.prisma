@@ -7,6 +7,27 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id              Int      @id @default(autoincrement())
+  username        String   @unique
+  email           String   @unique
+  role            Role
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  isVerified      Boolean  @default(false)
+  displayName     String?
+  bio             String?
+  avatarUrl       String?
+  favoriteStories Story[] @default([])
+  followedUsers   User[] @default([])
+  followingUsers  User[] @default([])
+
+  publishedStories Story[]       @relation("publishedBy")
+  savedStories     Story[]       @relation("savedBy")
+  
+  settings         UserSettings
+}
+
 model Story {
   id        Int      @id @default(autoincrement())
   title     String
@@ -22,36 +43,15 @@ model Story {
   savedBy User[] @relation("savedBy")
 }
 
-model User {
-  id              Int      @id @default(autoincrement())
-  username        String   @unique
-  email           String   @unique
-  role            Role
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  isVerified      Boolean  @default(false)
-  displayName     String?
-  bio             String?
-  avatarUrl       String?
-  favoriteStories String[] @default([])
-  followedUsers   String[] @default([])
-  followingUsers  String[] @default([])
-
-  publishedStories Story[]       @relation("publishedBy")
-  savedStories     Story[]       @relation("savedBy")
-  settings         UserSettings?
-  Story            Story[]
-}
-
 model Scene {
-  id      Int      @id @default(autoincrement())
-  title   String
-  image   String?
-  isEnd   Boolean  @default(false)
+  id          Int      @id @default(autoincrement())
+  title       String
+  image       String?
+  isEnd       Boolean  @default(false)
   description String
-  choices Choice[]
-  Story   Story?   @relation(fields: [storyId], references: [id])
-  storyId Int?
+  choices     Choice[]
+  Story       Story?   @relation(fields: [storyId], references: [id])
+  storyId     Int?
 }
 
 model Choice {
@@ -70,9 +70,8 @@ enum Role {
 }
 
 model UserSettings {
-  id       Int     @id @default(autoincrement())
   theme    String  @default("dark")
-  language String?
+  language String  @default("en")
   userId   Int     @unique
   user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
