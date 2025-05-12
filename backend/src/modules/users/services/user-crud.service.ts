@@ -6,7 +6,7 @@ import {
 import { PrismaService } from 'src/modules/prisma/prisma.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
-import { User } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
 import { HelpersService } from 'src/modules/helpers/helpers.service';
 
 @Injectable()
@@ -68,20 +68,28 @@ export class UserCrudService {
     try {
       // Check if user exists before updating
       await this.helpers.getThingOrThrow<User>('user', id, 'User');
-      const { settings, ...rest } = dto;
+      const { settings, stories, ...rest } = dto;
+
+      const data: Prisma.UserUncheckedUpdateInput = {
+        ...rest,
+        ...(settings && {
+          settings: {
+            upsert: {
+              update: settings,
+              create: settings,
+            },
+          },
+        }),
+        ...(stories && {
+          stories: {
+            connect: stories.map((storyId) => ({ id: storyId })),
+          },
+        }),
+      };
+
       return await this.prisma.user.update({
         where: { id },
-        data: {
-          ...rest,
-          ...(settings && {
-            settings: {
-              upsert: {
-                update: settings,
-                create: settings,
-              },
-            },
-          }),
-        },
+        data,
         include: this.userInclude,
       });
     } catch (error) {

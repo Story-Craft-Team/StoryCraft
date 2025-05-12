@@ -1,1 +1,1 @@
-export {type response as HealthRes } from "./health";
+export {type response as HealthRes } from "./Health";

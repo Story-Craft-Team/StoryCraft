@@ -3,15 +3,14 @@ import {
   IsOptional,
   IsString,
   IsUrl,
-  IsBoolean,
-  ValidateNested,
   IsEnum,
   MaxLength,
   MinLength,
+  ValidateNested,
 } from 'class-validator';
-import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger'; // Import Swagger decorators
-import { CreateUserSettingsDto } from './create-user-settings.dto';
+import { UserSettingsDto } from './user-settings.dto';
+import { Type } from 'class-transformer';
 
 export class CreateUserDto {
   @ApiProperty({
@@ -33,12 +32,12 @@ export class CreateUserDto {
   email: string;
 
   @ApiProperty({
-    description: 'Indicates whether the user is verified',
-    type: Boolean,
-    example: true,
+    description: 'Password of the user',
+    type: String,
+    example: 'strongPassword123',
   })
-  @IsBoolean()
-  isVerified?: boolean;
+  @IsString()
+  password: string;
 
   @ApiProperty({
     description: 'Display name of the user (optional)',
@@ -52,18 +51,7 @@ export class CreateUserDto {
   displayName?: string;
 
   @ApiProperty({
-    description: 'Short biography of the user (optional)',
-    type: String,
-    example: 'Avid reader and tech enthusiast',
-    required: false, // Mark as optional
-  })
-  @IsOptional()
-  @IsString()
-  @MaxLength(300)
-  bio?: string;
-
-  @ApiProperty({
-    description: 'URL to the user\'s avatar image (optional)',
+    description: "URL to the user's avatar image (optional)",
     type: String,
     example: 'https://example.com/avatar.jpg',
     required: false,
@@ -74,18 +62,15 @@ export class CreateUserDto {
   avatarUrl?: string;
 
   @ApiProperty({
-    description: 'User settings',
-    type: CreateUserSettingsDto,
-  })
-  @ValidateNested()
-  @Type(() => CreateUserSettingsDto)
-  settings: CreateUserSettingsDto;
-
-  @ApiProperty({
     description: 'Role of the user',
     enum: ['admin', 'moderator', 'reader'],
-    example: 'reader', // Example role
+    example: 'reader',
   })
   @IsEnum(['admin', 'moderator', 'reader'])
   role: 'admin' | 'moderator' | 'reader';
+
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => UserSettingsDto)
+  settings?: UserSettingsDto;
 }

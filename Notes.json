@@ -11,14 +11,39 @@
       "displayName": "Redfined",
       "bio": "Фуллстек разработчик из Украины",
       "avatarUrl": "https://example.com/avatar.jpg",
-      "favoriteStories": [3, 1],
+
       "followedUsers": ["pivozavr", "andrey"],
       "followingUsers": ["andrey", "pivozavr"],
-      "publishedStories": [1, 3],
-      "savedStories": [2],
+
+      "favoriteStories": [3, 1],
+      "stories": [1, 3],
+      
       "settings": {
         "theme": "dark",
         "language": "ru"
+      }
+    },
+    {
+      "id": 2,
+      "username": "pivozavr",
+      "email": "pivozavr@example.com",
+      "role": "reader",
+      "createdAt": "2025-05-11T10:30:00Z",
+      "updatedAt": "2025-05-11T10:30:00Z",
+      "isVerified": true,
+      "displayName": "Pivozavr",
+      "bio": "Фуллстек разработчик из Украины",
+      "avatarUrl": "https://example.com/avatar.jpg",
+
+      "followedUsers": ["redefinedgg", "andrey"],
+      "followingUsers": ["redefinedgg", "andrey"],
+
+      "favoriteStories": [1],
+      "stories": [2],
+      
+      "settings": {
+        "theme": "light",
+        "language": "en"
       }
     }
   ],
@@ -27,13 +52,14 @@
     {
       "id": 1,
       "title": "Потерянный город",
-      "authorId": 1,
-
-      "isPublic": false,
       "createdAt": "2025-05-10T12:00:00Z",
       "updatedAt": "2025-05-11T09:00:00Z",
-      "publishedById": 2,
-      "savedBy": 1,
+      "isPublic": false,
+
+      "authorId": 1,
+      "author": 1,
+
+      "isFavoriteBy": 1,
 
       "scenes": [
         {
