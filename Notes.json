@@ -1,48 +1,103 @@
 {
-  "scenes": [
+  "Users": [
     {
       "id": 1,
-      "title": "Ты очнулся в лесу. Всё тело болит, память пуста. Перед тобой — высокая трава и странный забор вдалеке.",
-      "image": null,
-      "is_end": false,
-      "choices": [
-        {
-          "id": 1,
-          "text": "Осмотреться, попытаться понять что произошло",
-          "next_scene_id": 2,
-          "access": true
-        },
-        {
-          "id": 2,
-          "text": "Без разбора идти к забору",
-          "next_scene_id": 3,
-          "access": true
-        }
-      ]
+      "username": "redefinedgg",
+      "email": "ivan@example.com",
+      "role": "admin",
+      "createdAt": "2025-05-11T10:30:00Z",
+      "updatedAt": "2025-05-11T10:30:00Z",
+      "isVerified": true,
+      "displayName": "Redfined",
+      "bio": "Фуллстек разработчик из Украины",
+      "avatarUrl": "https://example.com/avatar.jpg",
+
+      "followedUsers": ["pivozavr", "andrey"],
+      "followingUsers": ["andrey", "pivozavr"],
+
+      "favoriteStories": [3, 1],
+      "stories": [1, 3],
+      
+      "settings": {
+        "theme": "dark",
+        "language": "ru"
+      }
     },
     {
       "id": 2,
-      "title": "Ты осмотрелся, рядом была бутылка с водой. Кажется, чистая.",
-      "image": null,
-      "is_end": false,
-      "choices": [
+      "username": "pivozavr",
+      "email": "pivozavr@example.com",
+      "role": "reader",
+      "createdAt": "2025-05-11T10:30:00Z",
+      "updatedAt": "2025-05-11T10:30:00Z",
+      "isVerified": true,
+      "displayName": "Pivozavr",
+      "bio": "Фуллстек разработчик из Украины",
+      "avatarUrl": "https://example.com/avatar.jpg",
+
+      "followedUsers": ["redefinedgg", "andrey"],
+      "followingUsers": ["redefinedgg", "andrey"],
+
+      "favoriteStories": [1],
+      "stories": [2],
+      
+      "settings": {
+        "theme": "light",
+        "language": "en"
+      }
+    }
+  ],
+
+  "Stories": [
+    {
+      "id": 1,
+      "title": "Потерянный город",
+      "createdAt": "2025-05-10T12:00:00Z",
+      "updatedAt": "2025-05-11T09:00:00Z",
+      "isPublic": false,
+
+      "authorId": 1,
+      "author": 1,
+
+      "isFavoriteBy": 1,
+
+      "scenes": [
         {
           "id": 1,
-          "text": "Выпить воду",
-          "next_scene_id": 4,
-          "access": true
+          "title": "Затерянная тропа",
+          "image": "https://example.com/scene1.jpg",
+          "isEnd": false,
+          "description": "Вы стоите у начала тропы, ведущей в густой лес.",
+          "choices": [
+            {
+              "id": 1,
+              "text": "Пойти налево",
+              "nextScene": 2,
+              "access": true
+            },
+            {
+              "id": 2,
+              "text": "Пойти направо",
+              "nextScene": 3,
+              "access": true
+            }
+          ]
         },
         {
           "id": 2,
-          "text": "Забить хуй на воду и идти к забору",
-          "next_scene_id": 5,
-          "access": true
+          "title": "Разбойники...",
+          "image": "https://example.com/scene2.jpg",
+          "isEnd": true,
+          "description": "Вы встретили разбойников, которые отпилили вам голову. game over.",
+          "choices": []
         },
         {
           "id": 3,
-          "text": "Сесть в горящую машину",
-          "next_scene_id": 6,
-          "access": false
+          "title": "Потерянный город",
+          "image": "https://example.com/scene1.jpg",
+          "isEnd": true,
+          "description": "Вы встретили тонны золота и стали самым багатым человеком в мире.",
+          "choices": []
         }
       ]
     }
