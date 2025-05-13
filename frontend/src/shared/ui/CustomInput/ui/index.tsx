@@ -10,8 +10,6 @@ interface Props{
 
 export default function CustomInput({onChange, placeholder, type}:Props){
     return (
-        <>
-            <input className={s.input_style} type={type} onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(e)} placeholder={placeholder}/>
-        </>
+        <input className={s.input_style} type={type} onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(e)} placeholder={placeholder}/>
     );
 };

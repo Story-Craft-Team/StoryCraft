@@ -7,8 +7,6 @@ interface Props{
 
 export default function Submit({children}: Props){
     return (
-        <>
-            <button type="submit" className={s.btn}>{children}</button>
-        </>
+        <button type="submit" className={s.btn}>{children}</button>
     );
 };

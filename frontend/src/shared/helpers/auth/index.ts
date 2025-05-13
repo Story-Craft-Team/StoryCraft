@@ -5,9 +5,16 @@ type User = {
     password: string
 }
 
-export function useLogin(){
+/*
+    The function processes the user's request to log in to their registered account.
+    The function accepts the following parameters:
+    @newUser - data of an already registered user account 
+    @password - the password entered by the user in the authorization form 
+    @username - username entered by the user in the authorization form
+*/
+export const useLogin = () => {
     const router = useRouter()
-    function submitLogin(newUser: string, password: string, username: string){ //comparing information from the authorization form with newUserData
+    function submitLogin(newUser: object | string, password: string, username: string){ //comparing information from the authorization form with newUserData
         const newUserData = JSON.parse(JSON.stringify(newUser))
         if(newUserData.username === username && newUserData.password === password){
             const userData:User = {
@@ -23,7 +30,14 @@ export function useLogin(){
     return {submitLogin}
 } 
 
-export function useRegistration(){
+/*
+    The function processes the user's request to registration.
+    The function accepts the following parameters:
+    @rePassword - the second password entered by the user in the registration form, which have to be the same with first, basic password
+    @password - the password entered by the user in the registration form 
+    @username - username entered by the user in the registration form
+*/
+export const useRegistration = () => {
     const router = useRouter()
     function RegistrationSubmit(rePassword: string, password: string, username: string){ //establishing the data of the registered user
         if(rePassword === password){

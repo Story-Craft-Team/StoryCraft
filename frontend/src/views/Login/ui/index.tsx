@@ -11,6 +11,7 @@ export default function Login(){
     const [username, setUsername] = useState<string>("")
     const [password, setPassword] = useState<string>("")
     const [newUserData, setNewUserData] = useState<string>("")
+    
     const {submitLogin} = useLogin()
     useEffect(() => { //getting a new user from the registration form (newUserData)
         const data = localStorage.getItem('regUserData')
