@@ -6,14 +6,17 @@ type User = {
 }
 
 /*
-    The function processes the user's request to log in to their registered account.
-    The function accepts the following parameters:
-    @newUser - data of an already registered user account 
-    @password - the password entered by the user in the authorization form 
-    @username - username entered by the user in the authorization form
+    An add-on in the form of a useLogin custom hook that allows you to use the useRouter hook inside the submitLogin
 */
 export const useLogin = () => {
     const router = useRouter()
+    /*
+        The function processes the user's request to log in to their registered account.
+        The function accepts the following parameters:
+        @newUser - data of an already registered user account 
+        @password - the password entered by the user in the authorization form 
+        @username - username entered by the user in the authorization form
+    */
     function submitLogin(newUser: object | string, password: string, username: string){ //comparing information from the authorization form with newUserData
         const newUserData = JSON.parse(JSON.stringify(newUser))
         if(newUserData.username === username && newUserData.password === password){
@@ -31,14 +34,17 @@ export const useLogin = () => {
 } 
 
 /*
-    The function processes the user's request to registration.
-    The function accepts the following parameters:
-    @rePassword - the second password entered by the user in the registration form, which have to be the same with first, basic password
-    @password - the password entered by the user in the registration form 
-    @username - username entered by the user in the registration form
+    An add-on in the form of a useRegistration custom hook that allows you to use the useRouter hook inside the RegistrationSubmit
 */
 export const useRegistration = () => {
     const router = useRouter()
+    /*
+        The function processes the user's request to registration.
+        The function accepts the following parameters:
+        @rePassword - the second password entered by the user in the registration form, which have to be the same with first, basic password
+        @password - the password entered by the user in the registration form 
+        @username - username entered by the user in the registration form
+    */
     function RegistrationSubmit(rePassword: string, password: string, username: string){ //establishing the data of the registered user
         if(rePassword === password){
             const userData:User ={

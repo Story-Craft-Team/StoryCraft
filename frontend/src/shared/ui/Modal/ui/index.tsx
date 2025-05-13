@@ -5,7 +5,7 @@ interface Props{
     children: ReactNode
 }
 
-export default function WelcomModal({children}:Props){
+export default function Modal({children}:Props){
     const [windowIsVisible, setWindowVisible] = useState<boolean>(true)
 
     return (

@@ -1,10 +1,12 @@
 import React, { ChangeEvent } from 'react';
 import s from './Input.module.scss'
 
+type InputType = HTMLInputElement['type']
+
 interface Props{
   onChange: (value: ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
-  type?: 'text' | 'password' | 'email' | 'number';
+  type?: InputType;
   value?: string;
 }
 

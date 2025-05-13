@@ -18,7 +18,7 @@ export default function HomeModal(){
     return (
         <>
             {hasUserData && <Modal> 
-                <h1>Приветствую, {username}</h1>
+                <h1 className={s.alert}>Приветствую, {username}</h1>
             </Modal>}
         </>
     );
