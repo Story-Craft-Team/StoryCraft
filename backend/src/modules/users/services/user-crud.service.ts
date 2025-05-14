@@ -20,7 +20,7 @@ export class UserCrudService {
 
   // create
   async create(dto: CreateUserDto): Promise<User> {
-    const { settings, ...rest } = dto;
+    const { settings: incomingSettings, ...rest } = dto;
   
     const existingUser = await this.prisma.user.findFirst({
       where: {
@@ -35,11 +35,19 @@ export class UserCrudService {
       throw new BadRequestException('User already exists');
     }
   
+    // Применение значений по умолчанию
+    const settings = incomingSettings ?? {
+      theme: 'dark',
+      language: 'en',
+    };
+  
     try {
       return await this.prisma.user.create({
         data: {
           ...rest,
-          settings: settings ? { create: settings } : undefined,
+          settings: {
+            create: settings,
+          },
         },
         include: this.userInclude,
       });
@@ -47,6 +55,7 @@ export class UserCrudService {
       throw new BadRequestException('Error creating user: ' + error.message);
     }
   }
+  
   
   // findAll
   async findAll(): Promise<User[]> {
@@ -73,10 +82,11 @@ export class UserCrudService {
   // update
   async update(id: number, dto: UpdateUserDto): Promise<User> {
     try {
-      // Check if user exists before updating
+      // Проверка, что пользователь существует
       await this.helpers.getThingOrThrow<User>('user', id, 'User');
-      const { settings, stories, ...rest } = dto;
-
+  
+      const { settings, ...rest } = dto;
+  
       const data: Prisma.UserUncheckedUpdateInput = {
         ...rest,
         ...(settings && {
@@ -87,13 +97,8 @@ export class UserCrudService {
             },
           },
         }),
-        ...(stories && {
-          stories: {
-            connect: stories.map((storyId) => ({ id: storyId })),
-          },
-        }),
       };
-
+  
       return await this.prisma.user.update({
         where: { id },
         data,
@@ -105,6 +110,7 @@ export class UserCrudService {
       );
     }
   }
+  
 
   // remove
   async remove(id: number): Promise<void> {

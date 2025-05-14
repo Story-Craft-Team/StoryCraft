@@ -62,7 +62,6 @@ model Choice {
 }
 
 model UserSettings {
-  id       Int    @id @default(autoincrement())
   theme    String @default("dark")
   language String @default("en")
   userId   Int    @unique

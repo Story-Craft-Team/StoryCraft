@@ -43,7 +43,7 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsArray()
   @IsNumber({}, { each: true })
   @IsOptional()
-  stories?: number[];
+  storiesIds?: number[];
 
   @ApiProperty({
     example: {
