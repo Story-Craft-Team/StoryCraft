@@ -5,10 +5,11 @@ import { UserCrudService } from './services/user-crud.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from '@prisma/client';
+import { UserOperationService } from './services/user-operations.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly userCrud: UserCrudService) {}
+  constructor(private readonly userCrud: UserCrudService, private readonly userOperations: UserOperationService) {}
 
   create(createUserDto: CreateUserDto): Promise<User> {
     return this.userCrud.create(createUserDto);
@@ -28,5 +29,9 @@ export class UsersService {
 
   remove(id: number): Promise<void> {
     return this.userCrud.remove(id);
+  }
+
+  verify(id: number) {
+    return this.userOperations.verify(id);
   }
 }

@@ -3,7 +3,7 @@ import { AppService } from './app.service';
 import { HealthRes } from './shared/types';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'; // Import Swagger decorators
 
-@ApiTags('Health') // Grouping the endpoints by the 'Health' tag
+@ApiTags('Default') // Grouping the endpoints by the 'Health' tag
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}

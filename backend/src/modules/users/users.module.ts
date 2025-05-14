@@ -6,10 +6,11 @@ import { UserCrudService } from './services/user-crud.service';
 import { HelpersService } from '../helpers/helpers.service';
 import { HelpersModule } from '../helpers/helpers.module';
 import { PrismaModule } from '../prisma/prisma.module';
+import { UserOperationService } from './services/user-operations.service';
 
 @Module({
   imports: [HelpersModule, PrismaModule],
   controllers: [UsersController],
-  providers: [UsersService, PrismaService, UserCrudService],
+  providers: [UsersService, PrismaService, UserCrudService, UserOperationService],
 })
 export class UsersModule {}

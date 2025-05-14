@@ -21,14 +21,21 @@ export class UserCrudService {
   // create
   async create(dto: CreateUserDto): Promise<User> {
     const { settings, ...rest } = dto;
-
+  
+    const existingUser = await this.prisma.user.findFirst({
+      where: {
+        OR: [
+          { email: dto.email },
+          { username: dto.username },
+        ],
+      },
+    });
+  
+    if (existingUser) {
+      throw new BadRequestException('User already exists');
+    }
+  
     try {
-      const existingUser = await this.prisma.user.findUnique({
-        where: { email: dto.email, username: dto.username },
-      });
-      if (existingUser) {
-        throw new BadRequestException('User already exists');
-      }
       return await this.prisma.user.create({
         data: {
           ...rest,
@@ -40,7 +47,7 @@ export class UserCrudService {
       throw new BadRequestException('Error creating user: ' + error.message);
     }
   }
-
+  
   // findAll
   async findAll(): Promise<User[]> {
     try {
