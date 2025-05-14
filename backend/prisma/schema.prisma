@@ -19,11 +19,13 @@ model User {
   bio             String?
   avatarUrl       String?
   password        String
-  stories         Story?
+  stories         Story[]
   settings        UserSettings?
   favoriteStories Story[]       @relation("UserFavoriteStories")
-  User_A          User[]        @relation("UserFollows")
-  User_B          User[]        @relation("UserFollows")
+  followedUsers   User[]        @relation("UserFollowed")
+  followingUsers  User[]        @relation("UserFollowing")
+  User_A          User[]        @relation("UserFollowed")
+  User_B          User[]        @relation("UserFollowing")
 }
 
 model Story {
@@ -65,7 +67,7 @@ model UserSettings {
   theme    String @default("dark")
   language String @default("en")
   userId   Int    @unique
-  user     User   @relation(fields: [userId], references: [id])
+    user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum Role {

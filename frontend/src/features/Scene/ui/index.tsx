@@ -1,6 +1,6 @@
 'use client';
 
-import TextInput from "@/entities/TextInput/ui";
+import TextInput from "@/entities/TextInput/ui"; // поменять импорты
 import s from "./Scene.module.scss";
 import { ChoiceInput } from "@/entities";
 import { useState } from "react";

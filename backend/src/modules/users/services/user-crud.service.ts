@@ -22,6 +22,7 @@ export class UserCrudService {
   async create(dto: CreateUserDto): Promise<User> {
     const { settings: incomingSettings, ...rest } = dto;
   
+    // Check if user already exists
     const existingUser = await this.prisma.user.findFirst({
       where: {
         OR: [
@@ -32,13 +33,13 @@ export class UserCrudService {
     });
   
     if (existingUser) {
-      throw new BadRequestException('User already exists');
+      throw new BadRequestException('Username or email already exists');
     }
   
-    // Применение значений по умолчанию
+    // default settings
     const settings = incomingSettings ?? {
       theme: 'dark',
-      language: 'en',
+      language: 'ru',
     };
   
     try {
@@ -71,7 +72,7 @@ export class UserCrudService {
   // findOne
   async findOne(id: number): Promise<User> {
     try {
-      return this.helpers.getThingOrThrow<User>('user', id, 'User');
+      return this.helpers.getIdOrThrow<User>('user', id, 'User');
     } catch (error) {
       throw new NotFoundException(
         `Error finding user with ID ${id}: ${error.message}`,
@@ -82,26 +83,40 @@ export class UserCrudService {
   // update
   async update(id: number, dto: UpdateUserDto): Promise<User> {
     try {
-      // Проверка, что пользователь существует
-      await this.helpers.getThingOrThrow<User>('user', id, 'User');
+      await this.helpers.getIdOrThrow<User>('user', id, 'User');
   
-      const { settings, ...rest } = dto;
+      const {
+        settings,
+        followedUsers,
+        followingUsers,
+        favoriteStories,
+        stories,
+        ...rest
+      } = dto;
   
       const data: Prisma.UserUncheckedUpdateInput = {
         ...rest,
-        ...(settings && {
-          settings: {
-            upsert: {
-              update: settings,
-              create: settings,
-            },
+        settings: settings && {
+          upsert: {
+            update: settings,
+            create: settings,
           },
-        }),
+        },
+        followedUsers: this.helpers.createSetRelation(followedUsers),
+        followingUsers: this.helpers.createSetRelation(followingUsers),
+        favoriteStories: this.helpers.createSetRelation(favoriteStories),
+        stories: this.helpers.createSetRelation(stories),
+        updatedAt: new Date(),
       };
+  
+      // Удаляем поля со значением undefined (иначе Prisma может ругаться)
+      const cleanData = Object.fromEntries(
+        Object.entries(data).filter(([_, value]) => value !== undefined)
+      );
   
       return await this.prisma.user.update({
         where: { id },
-        data,
+        data: cleanData,
         include: this.userInclude,
       });
     } catch (error) {
@@ -111,12 +126,13 @@ export class UserCrudService {
     }
   }
   
-
+  
   // remove
   async remove(id: number): Promise<void> {
     try {
       // Check if user exists before deleting
-      await this.helpers.getThingOrThrow<User>('user', id, 'User');
+      await this.helpers.getIdOrThrow<User>('user', id, 'User');
+
       await this.prisma.user.delete({ where: { id } });
     } catch (error) {
       throw new BadRequestException(

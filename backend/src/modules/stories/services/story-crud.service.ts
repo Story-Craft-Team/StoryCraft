@@ -35,7 +35,7 @@ export class StoryCrudService {
   // findOne
   async findOne(id: number): Promise<Story> {
     try {
-      return this.helpers.getThingOrThrow<Story>('story', id, 'Story');
+      return this.helpers.getIdOrThrow<Story>('story', id, 'Story');
     } catch (error) {
       throw new BadRequestException('Error retrieving story: ' + error.message);
     }
@@ -44,7 +44,7 @@ export class StoryCrudService {
   // update
   async update(id: number, dto: UpdateStoryDto): Promise<Story> {
     try {
-      await this.helpers.getThingOrThrow<Story>('story', id, 'Story');
+      await this.helpers.getIdOrThrow<Story>('story', id, 'Story');
       return await this.prisma.story.update({ where: { id }, data: dto });
     } catch (error) {
       throw new BadRequestException('Error updating story: ' + error.message);
@@ -54,7 +54,7 @@ export class StoryCrudService {
   // remove
   async remove(id: number): Promise<void> {
     try {
-      await this.helpers.getThingOrThrow<Story>('story', id, 'Story');
+      await this.helpers.getIdOrThrow<Story>('story', id, 'Story');
       await this.prisma.story.delete({ where: { id } });
     } catch (error) {
       throw new BadRequestException('Error deleting story: ' + error.message);

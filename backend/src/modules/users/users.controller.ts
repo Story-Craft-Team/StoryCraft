@@ -100,7 +100,17 @@ export class UsersController {
     return this.usersService.remove(+id);
   }
 
-  @Get('verify')
+  @Patch('verify/:id')
+  @ApiOperation({ summary: 'Verify a user' })
+  @ApiParam({ name: 'id', type: 'string', description: 'User ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'User has been successfully verified.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'User not found',
+  })
   verify(@Param('id') id: string) {
     return this.usersService.verify(+id);
   }

@@ -9,7 +9,7 @@ import { PrismaClient } from '@prisma/client';
 export class HelpersService {
   constructor(private readonly prisma: PrismaClient) {}
 
-  async getThingOrThrow<T>(
+  async getIdOrThrow<T>(
     model: keyof PrismaClient,
     id: number,
     entityName = 'Entity',
@@ -28,4 +28,10 @@ export class HelpersService {
       );
     }
   }
+
+  createSetRelation = <T>(
+    ids?: number[],
+  ) => ids?.length
+    ? { set: ids?.map((id) => ({ id })) }
+    : undefined;
 }
