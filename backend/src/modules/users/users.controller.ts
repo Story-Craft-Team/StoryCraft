@@ -114,4 +114,34 @@ export class UsersController {
   verify(@Param('id') id: string) {
     return this.usersService.verify(+id);
   }
+
+  @Post('follow/:id')
+  @ApiOperation({ summary: 'Follow a user' })
+  @ApiParam({ name: 'id', type: 'string', description: 'User ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'User has been successfully followed.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'User not found',
+  })
+  follow(@Param('id') id: string) {
+    return this.usersService.follow(+id, +id);
+  }
+
+  @Post('unfollow/:id')
+  @ApiOperation({ summary: 'Unfollow a user' })
+  @ApiParam({ name: 'id', type: 'string', description: 'User ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'User has been successfully unfollowed.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'User not found',
+  })
+  unfollow(@Param('id') id: string) {
+    return this.usersService.unfollow(+id, +id);
+  }
 }

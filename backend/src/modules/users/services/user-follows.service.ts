@@ -5,7 +5,7 @@ export class UserFollowsService {
     constructor (private readonly prisma: PrismaService) {}
 
     // follow to the user
-    async followToUser(userId: number, followerId: number) {
+    async follow(userId: number, followerId: number) {
         try {
             await this.prisma.user.update({
                 where: { id: userId },
@@ -22,7 +22,7 @@ export class UserFollowsService {
         }
     }
 
-    async unfollowUser(userId: number, followerId: number) {
+    async unfollow(userId: number, followerId: number) {
         try {
             await this.prisma.user.update({
                 where: { id: userId },

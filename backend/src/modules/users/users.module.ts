@@ -11,6 +11,12 @@ import { UserFollowsService } from './services/user-follows.service';
 @Module({
   imports: [HelpersModule, PrismaModule],
   controllers: [UsersController],
-  providers: [UsersService, PrismaService, UserCrudService, UserOperationService, UserFollowsService],
+  providers: [
+    UsersService,
+    PrismaService,
+    UserCrudService,
+    UserOperationService,
+    UserFollowsService,
+  ],
 })
 export class UsersModule {}
