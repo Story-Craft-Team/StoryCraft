@@ -9,6 +9,7 @@
   justify-content: center;
   justify-items: center;
   align-items: center;
+  position: relative;
 }
 .containerUnVisible{
   display: none;
@@ -23,4 +24,15 @@
   place-items: center;
   background: rgba(0, 0, 0, 0.5);
   z-index: 100;
+}
+.btn{
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 18px;
+  font-family: sans-serif;
+  width: 30px;
+  height: 30px;
+  color: black;
+  cursor: pointer;
 }
