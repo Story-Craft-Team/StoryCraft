@@ -22,10 +22,19 @@ model User {
   stories         Story[]       @relation("UserStories")
   settings        UserSettings?
   favoriteStories Story[]       @relation("UserFavoriteStories")
-  followedUsers   User[]        @relation("UserFollowed")
-  followingUsers  User[]        @relation("UserFollowing")
-  User_A          User[]        @relation("UserFollowed")
-  User_B          User[]        @relation("UserFollowing")
+  followedUsers    Follow[] @relation("UserFollowing")
+  followingUsers    Follow[] @relation("UserFollowed")
+}
+
+model Follow {
+  id           Int    @id @default(autoincrement())
+  followerId   Int
+  followingId  Int
+
+  followedUser     User   @relation("UserFollowed", fields: [followerId], references: [id])
+  followingUser    User   @relation("UserFollowing", fields: [followingId], references: [id])
+
+  @@unique([followerId, followingId])
 }
 
 model Story {

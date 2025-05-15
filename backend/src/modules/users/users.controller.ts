@@ -6,6 +6,7 @@ import {
   Param,
   Delete,
   Patch,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -115,33 +116,29 @@ export class UsersController {
     return this.usersService.verify(+id);
   }
 
-  @Post('follow/:id')
+  @Post('follow/:userId/:followerId')
   @ApiOperation({ summary: 'Follow a user' })
-  @ApiParam({ name: 'id', type: 'string', description: 'User ID' })
-  @ApiResponse({
-    status: 200,
-    description: 'User has been successfully followed.',
-  })
-  @ApiResponse({
-    status: 404,
-    description: 'User not found',
-  })
-  follow(@Param('id') id: string) {
-    return this.usersService.follow(+id, +id);
+  @ApiParam({ name: 'userId', type: 'number', description: 'User ID' })
+  @ApiParam({ name: 'followerId', type: 'number', description: 'Follower ID' })
+  @ApiResponse({ status: 200, description: 'User has been successfully followed.' })
+  @ApiResponse({ status: 404, description: 'User not found' })
+  follow(
+    @Param('userId', ParseIntPipe) userId: number,
+    @Param('followerId', ParseIntPipe) followerId: number,
+  ) {
+    return this.usersService.follow(userId, followerId);
   }
-
-  @Post('unfollow/:id')
+  
+  @Post('unfollow/:userId/:followerId')
   @ApiOperation({ summary: 'Unfollow a user' })
-  @ApiParam({ name: 'id', type: 'string', description: 'User ID' })
-  @ApiResponse({
-    status: 200,
-    description: 'User has been successfully unfollowed.',
-  })
-  @ApiResponse({
-    status: 404,
-    description: 'User not found',
-  })
-  unfollow(@Param('id') id: string) {
-    return this.usersService.unfollow(+id, +id);
+  @ApiParam({ name: 'userId', type: 'number', description: 'User ID' })
+  @ApiParam({ name: 'followerId', type: 'number', description: 'Follower ID' })
+  @ApiResponse({ status: 200, description: 'User has been successfully unfollowed.' })
+  @ApiResponse({ status: 404, description: 'User not found' })
+  unfollow(
+    @Param('userId', ParseIntPipe) userId: number,
+    @Param('followerId', ParseIntPipe) followerId: number,
+  ) {
+    return this.usersService.unfollow(userId, followerId);
   }
 }
