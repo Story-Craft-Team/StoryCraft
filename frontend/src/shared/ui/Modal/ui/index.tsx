@@ -1,5 +1,6 @@
 import React, { ReactNode, useState } from 'react';
 import s from './modalWindow.module.scss'
+import { FiX } from 'react-icons/fi';
 
 interface Props{
     children: ReactNode
@@ -13,7 +14,7 @@ export default function Modal({children}:Props){
     return (
         <div className={windowIsVisible? s.modalOverlay : s.containerUnVisible} onClick={changeVisible}>
             <div className={windowIsVisible? s.containerVisible : s.containerUnVisible} onClick={(e:React.MouseEvent) => e.stopPropagation()}>
-                <button className={s.btn} onClick={changeVisible}>Close</button>
+                <FiX className={s.btn} onClick={changeVisible}>Close</FiX>
                 {children}
             </div>
         </div>
