@@ -1,13 +1,13 @@
 import {
-  BadRequestException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
 import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class HelpersService {
-  constructor(private readonly prisma: PrismaClient) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async getIdOrThrow<T>(
     model: keyof PrismaClient,
@@ -29,7 +29,7 @@ export class HelpersService {
     }
   }
 
-  createSetRelation = <T>(
+  createSetRelation = (
     ids?: number[],
   ) => ids?.length
     ? { set: ids?.map((id) => ({ id })) }
