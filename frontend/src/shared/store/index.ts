@@ -7,12 +7,12 @@ import { storyEditorSlice } from "./slices/storyEditor";
 import { Store } from "@/shared/lib/types";
 
 export const useStore = create<Store>()(
-  devtools(
-    subscribeWithSelector(
-      immer((...a) => ({
-        ...authSlice(...a),
-        ...storyEditorSlice(...a),
-      }))
-    )
-  )
+	devtools(
+		subscribeWithSelector(
+			immer((...a) => ({
+				...authSlice(...a),
+				...storyEditorSlice(...a),
+			})),
+		),
+	),
 );

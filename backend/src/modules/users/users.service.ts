@@ -1,15 +1,18 @@
-import {
-  Injectable,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UserCrudService } from './services/user-crud.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from '@prisma/client';
 import { UserOperationService } from './services/user-operations.service';
+import { UserFollowsService } from './services/user-follows.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly userCrud: UserCrudService, private readonly userOperations: UserOperationService) {}
+  constructor(
+    private readonly userCrud: UserCrudService,
+    private readonly userOperations: UserOperationService,
+    private readonly userFollows: UserFollowsService,
+  ) {}
 
   create(createUserDto: CreateUserDto): Promise<User> {
     return this.userCrud.create(createUserDto);
@@ -33,5 +36,13 @@ export class UsersService {
 
   verify(id: number) {
     return this.userOperations.verify(id);
+  }
+
+  follow(userId: number, followId: number) {
+    return this.userFollows.follow(userId, followId);
+  }
+
+  unfollow(userId: number, followId: number) {
+    return this.userFollows.unfollow(userId, followId);
   }
 }

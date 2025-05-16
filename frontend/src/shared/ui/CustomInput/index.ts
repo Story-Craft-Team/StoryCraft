@@ -1,1 +1,1 @@
-export {default as CustomInput} from './ui'
+export { default as CustomInput } from "./ui";

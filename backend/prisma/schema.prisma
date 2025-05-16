@@ -19,11 +19,22 @@ model User {
   bio             String?
   avatarUrl       String?
   password        String
-  stories         Story?
+  stories         Story[]       @relation("UserStories")
   settings        UserSettings?
   favoriteStories Story[]       @relation("UserFavoriteStories")
-  User_A          User[]        @relation("UserFollows")
-  User_B          User[]        @relation("UserFollows")
+  followedUsers    Follow[] @relation("UserFollowing")
+  followingUsers    Follow[] @relation("UserFollowed")
+}
+
+model Follow {
+  id           Int    @id @default(autoincrement())
+  followerId   Int
+  followingId  Int
+
+  followedUser     User   @relation("UserFollowed", fields: [followerId], references: [id])
+  followingUser    User   @relation("UserFollowing", fields: [followingId], references: [id])
+
+  @@unique([followerId, followingId])
 }
 
 model Story {
@@ -35,7 +46,7 @@ model Story {
   isPublic     Boolean  @default(false)
   choices      Choice[]
   scenes       Scene[]
-  author       User     @relation(fields: [authorId], references: [id])
+  author       User     @relation("UserStories", fields: [authorId], references: [id])
   isFavoriteBy User[]   @relation("UserFavoriteStories")
 }
 
@@ -65,7 +76,7 @@ model UserSettings {
   theme    String @default("dark")
   language String @default("en")
   userId   Int    @unique
-  user     User   @relation(fields: [userId], references: [id])
+    user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum Role {

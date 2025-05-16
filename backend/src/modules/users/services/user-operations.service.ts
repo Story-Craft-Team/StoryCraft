@@ -1,7 +1,9 @@
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { HelpersService } from 'src/modules/helpers/helpers.service';
 import { PrismaService } from 'src/modules/prisma/prisma.service';
+import { User } from '@prisma/client';
 
+@Injectable()
 export class UserOperationService {
   constructor(
     private readonly prisma: PrismaService,
@@ -10,7 +12,7 @@ export class UserOperationService {
 
   async verify(id: number) {
     try {
-      await this.helpers.getThingOrThrow('user', id, 'User');
+      await this.helpers.getIdOrThrow<User>('user', id, 'User');
       return this.prisma.user.update({
         where: { id },
         data: { isVerified: true },

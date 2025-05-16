@@ -31,7 +31,7 @@ export class SceneCrudService {
 
   async findOne(id: number): Promise<Scene> {
     try {
-      return await this.helpers.getThingOrThrow<Scene>('scene', id, 'Scene');
+      return await this.helpers.getIdOrThrow<Scene>('scene', id, 'Scene');
     } catch (error) {
       throw new BadRequestException('Error retrieving scene: ' + error.message);
     }
@@ -39,7 +39,7 @@ export class SceneCrudService {
 
   async update(id: number, dto: CreateSceneDto): Promise<Scene> {
     try {
-      await this.helpers.getThingOrThrow<Scene>('scene', id, 'Scene');
+      await this.helpers.getIdOrThrow<Scene>('scene', id, 'Scene');
       return await this.prisma.scene.update({ where: { id }, data: dto });
     } catch (error) {
       throw new BadRequestException('Error updating scene: ' + error.message);
@@ -48,7 +48,7 @@ export class SceneCrudService {
 
   async remove(id: number): Promise<void> {
     try {
-      await this.helpers.getThingOrThrow<Scene>('scene', id, 'Scene');
+      await this.helpers.getIdOrThrow<Scene>('scene', id, 'Scene');
       await this.prisma.scene.delete({ where: { id } });
     } catch (error) {
       throw new BadRequestException('Error deleting scene: ' + error.message);
