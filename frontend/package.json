@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:staged": "biome check --staged --files-ignore-unknown=true --no-errors-on-unmatched",
+    "format:staged": "pretty-quick --staged"
   },
   "dependencies": {
     "immer": "^10.1.1",
@@ -18,11 +20,12 @@
     "zustand": "^5.0.4"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
+    "@biomejs/biome": "^1.9.4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "tailwindcss": "^4",
+    "pretty-quick": "^4.1.1",
+    "simple-git-hooks": "^2.13.0",
     "typescript": "^5"
   }
 }
