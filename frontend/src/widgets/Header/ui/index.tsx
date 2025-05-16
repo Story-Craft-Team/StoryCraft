@@ -11,7 +11,7 @@ export default function Header() {
         <p>The project in which you can create your own story!</p>
       </Link>
       <div className={s.right}>
-        <Link href="/create">
+        <Link href="/editor">
           <IoMdCreate />
         </Link>
         <Link href="/settings">
@@ -24,3 +24,4 @@ export default function Header() {
     </div>
   );
 }
+// TODO сделать так - чтобы при нахождении на странице истории добавлялась кнопка редактирования только для пользователей, которые создавали историю

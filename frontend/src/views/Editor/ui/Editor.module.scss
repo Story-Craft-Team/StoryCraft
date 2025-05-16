@@ -1,0 +1,27 @@
+//TODO вынести стили для переисп компонента
+.story_block {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+  background-color: #f5f5f5;
+  margin-bottom: 16px;
+
+  // Стили для заголовка сцены
+  .title {
+    font-weight: 700;
+    font-size: 1.6rem;
+  }
+
+  // Стили для номера сцены
+  .scene_number {
+    font-weight: 600;
+    font-size: 1.6rem;
+    margin-left: 12px;
+    padding: 6px 12px;
+    border-radius: 4px;
+  }
+}
+
+
