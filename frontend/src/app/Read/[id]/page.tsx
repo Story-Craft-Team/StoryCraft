@@ -1,4 +1,4 @@
-import ReadPage from "@/views/Read/ui";
+import { ReadPage } from "@/views";
 
 export default function Read() {
   return <ReadPage />;

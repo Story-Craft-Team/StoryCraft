@@ -1,11 +1,10 @@
 "use client";
-import StoryHeader from "@/entities/StoryHeader";
-import { useStoryEditor } from "@/shared/lib/hooks/useStoryEditor";
+import { StoryHeader } from "@/entities";
+import { useStoryEditor } from "@/shared/lib/hooks";
 
 export default function ReadPage() {
   const { title, scenes } = useStoryEditor();
   const sceneCount = scenes.length;
-
 
   return (
     <>

@@ -1,5 +1,5 @@
 "use client";
-import { useStoryEditor } from "@/shared/lib/hooks/useStoryEditor";
+import { useStoryEditor } from "@/shared/lib/hooks";
 
 export default function StoryEditor() {
   const {
