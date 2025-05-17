@@ -1,23 +1,21 @@
-"use client"
-import { useParams } from "next/navigation";
-import s from './Editor.module.scss'
+"use client";
 import StoryEditor from "@/widgets/StoryEditor";
+import StoryHeader from "@/entities/StoryHeader";
+import { useStoryEditor } from "@/shared/lib/hooks/useStoryEditor";
 
 export default function EditorPage() {
-  const { id } = useParams()
+  const { title, setTitle, scenes} = useStoryEditor();
+  const sceneCount = scenes.length + 15 // убрать потом 15
+
 
   return (
     <>
-      <div className={s.story_block}>
-        <h2 className={s.title}>Название истории(пока заглушка)</h2>
-        <h2 className={s.scene_number}>Сцена: {id}</h2>
-      </div>
-      
-
+      <StoryHeader onChangeTitle={setTitle} title={title} sceneCount={sceneCount} />
       <StoryEditor />
     </>
-  )
+  );
 }
 
-// TODO вынести код в начале, потому что переимпользуеться в read/:id (мб где то еще будет)
+
+
 // TODO Собрать по компонентам страничку едитора

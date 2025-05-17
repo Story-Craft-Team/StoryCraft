@@ -1,0 +1,29 @@
+.story_block {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px;
+  align-items: center;
+}
+
+
+
+.title_input {
+  font-size: 1rem;
+  padding: .3rem .5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 70%;
+  max-width: 60%;
+}
+
+.title_text {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: black
+}
+
+.scene_count {
+  font-size: 1.3rem;
+}
