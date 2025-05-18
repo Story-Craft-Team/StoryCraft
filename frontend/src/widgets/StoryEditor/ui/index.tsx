@@ -1,5 +1,5 @@
 "use client";
-import { useStoryEditor } from "@/shared/lib/hooks";
+import { useStore } from "@/shared/store";
 
 export default function StoryEditor() {
   const {
@@ -10,19 +10,18 @@ export default function StoryEditor() {
     scenes,
     setSceneTitle,
     addNewScene,
-  } = useStoryEditor();
+  } = useStore((state) => ({
+    title: state.title,
+    setTitle: state.setTitle,
+    description: state.description,
+    setDescription: state.setDescription,
+    scenes: state.scenes,
+    setSceneTitle: state.setSceneTitle,
+    addNewScene: state.addNewScene,
+  }));
 
   return (
-    <div style={{ padding: "20px" }}>
-      {/* Описание истории */}
-      <textarea
-        placeholder="Введите описание истории"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        rows={4}
-        style={{ width: "100%", marginBottom: "20px" }}
-      />
-
+    <div>
       {/* Список сцен */}
       {scenes.map((scene) => (
         <div key={scene.id} style={{ marginBottom: "10px" }}>
