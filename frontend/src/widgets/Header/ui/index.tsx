@@ -1,7 +1,7 @@
+import Link from "next/link";
 import { FaUser } from "react-icons/fa";
 import { IoMdCreate, IoMdSettings } from "react-icons/io";
 import s from "./Header.module.scss";
-import Link from "next/link";
 
 export default function Header() {
   return (
@@ -11,7 +11,7 @@ export default function Header() {
         <p>The project in which you can create your own story!</p>
       </Link>
       <div className={s.right}>
-        <Link href="/editor">
+        <Link href="/editor/12">
           <IoMdCreate />
         </Link>
         <Link href="/settings">
@@ -24,4 +24,6 @@ export default function Header() {
     </div>
   );
 }
+//TODO убрать editor/12 и поставить create в финальной версии
+
 // TODO сделать так - чтобы при нахождении на странице истории добавлялась кнопка редактирования только для пользователей, которые создавали историю
