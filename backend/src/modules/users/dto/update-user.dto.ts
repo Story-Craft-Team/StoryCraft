@@ -1,46 +1,52 @@
-import { UserSettings } from '@prisma/client';
-import { CreateUserDto } from './create-user.dto';
-import { ApiProperty, ApiTags, PartialType } from '@nestjs/swagger';
-import { IsArray, IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
+import { ApiProperty, ApiTags } from '@nestjs/swagger';
+import {
+  IsBoolean,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { UserSettingsDto } from './user-settings.dto';
 
 @ApiTags('Users')
-export class UpdateUserDto extends PartialType(CreateUserDto) {
-  @ApiProperty({ type: () => Number })
+export class UpdateUserDto {
+  @ApiProperty({ type: () => Number, example: 1 })
   @IsNumber()
   id?: number;
 
-  @ApiProperty({ type: () => Boolean, example: false })
+  @ApiProperty({ type: () => String, example: 'jumper' })
+  @IsString()
+  @IsOptional()
+  username?: string;
+
+  @ApiProperty({ type: () => String, example: 'strongPassword123456' })
+  @IsString()
+  @IsOptional()
+  password?: string;
+
+  @ApiProperty({ type: () => String, example: 'john.doe1@example.com' })
+  @IsString()
+  @IsOptional()
+  email?: string;
+
+  @ApiProperty({ type: () => String, example: 'moderator' })
+  @IsString()
+  @IsOptional()
+  role?: 'admin' | 'moderator' | 'reader';
+
+  @ApiProperty({ type: () => String, example: 'John Doe' })
+  @IsString()
+  @IsOptional()
+  displayName?: string;
+
+  @ApiProperty({ type: () => Boolean, example: true })
   @IsBoolean()
+  @IsOptional()
   isVerified?: boolean;
 
   @ApiProperty({ type: () => String, example: 'This is my bio' })
   @IsString()
+  @IsOptional()
   bio?: string;
-
-  @ApiProperty({ type: () => [Number] })
-  @IsArray()
-  @IsNumber({}, { each: true })
-  @IsOptional()
-  followedUsers?: number[];
-
-  @ApiProperty({ type: () => [Number] })
-  @IsArray()
-  @IsNumber({}, { each: true })
-  @IsOptional()
-  followingUsers?: number[];
-
-  @ApiProperty({ type: () => [Number] })
-  @IsArray()
-  @IsNumber({}, { each: true })
-  @IsOptional()
-  favoriteStories?: number[];
-
-  @ApiProperty({ type: () => [Number] })
-  @IsArray()
-  @IsNumber({}, { each: true })
-  @IsOptional()
-  stories?: number[];
 
   @ApiProperty({
     type: () => UserSettingsDto,
