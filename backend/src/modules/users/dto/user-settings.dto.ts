@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UserSettingsDto {
-  @ApiProperty() theme: string;
-  @ApiProperty() language: string;
+  @ApiProperty({ type: () => String }) theme: string;
+  @ApiProperty({ type: () => String }) language: string;
 }
