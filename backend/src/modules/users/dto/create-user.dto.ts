@@ -62,15 +62,6 @@ export class CreateUserDto {
   avatarUrl?: string;
 
   @ApiProperty({
-    description: 'Role of the user',
-    type: () => String,
-    enum: ['admin', 'moderator', 'reader'],
-    example: 'reader',
-  })
-  @IsEnum(['admin', 'moderator', 'reader'])
-  role: 'admin' | 'moderator' | 'reader';
-
-  @ApiProperty({
     description: 'User settings',
     type: () => UserSettingsDto,
     required: false,

@@ -1,22 +1,30 @@
 import { Module } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { UsersController } from './users.controller';
 import { PrismaService } from 'src/modules/prisma/prisma.service';
 import { UserCrudService } from './services/user-crud.service';
 import { HelpersModule } from '../helpers/helpers.module';
 import { PrismaModule } from '../prisma/prisma.module';
-import { UserOperationService } from './services/user-operations.service';
+import { UserOperationsService } from './services/user-operations.service';
 import { UserFollowsService } from './services/user-follows.service';
+import { BcryptService } from 'src/modules/bcrypt/services/bcrypt.service';
+import { UserAuthService } from './services/user-auth.service';
+import { AuthModule } from 'src/modules/auth/auth.module';
+import { UserHelperService } from '../helpers/services/user-helpers.service';
+import { UserAuthController } from './controllers/user-auth.controller';
+import { UserCrudController } from './controllers/user-crud.controller';
+import { UserOperationsController } from './controllers/user-operations.controller';
+import { UserFollowsController } from './controllers/user-follows.controller';
 
 @Module({
-  imports: [HelpersModule, PrismaModule],
-  controllers: [UsersController],
+  imports: [HelpersModule, PrismaModule, AuthModule],
+  controllers: [UserCrudController, UserAuthController, UserFollowsController, UserOperationsController],
   providers: [
-    UsersService,
     PrismaService,
     UserCrudService,
-    UserOperationService,
+    UserOperationsService,
     UserFollowsService,
+    BcryptService,
+    UserAuthService,
+    UserHelperService,
   ],
 })
 export class UsersModule {}

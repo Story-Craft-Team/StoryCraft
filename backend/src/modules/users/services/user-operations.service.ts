@@ -1,24 +1,53 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { HelpersService } from 'src/modules/helpers/helpers.service';
+import { HelpersService } from 'src/modules/helpers/services/helpers.service';
 import { PrismaService } from 'src/modules/prisma/prisma.service';
-import { User } from '@prisma/client';
+import { Role, User } from '@prisma/client';
+import { UserHelperService } from 'src/modules/helpers/services/user-helpers.service';
 
 @Injectable()
-export class UserOperationService {
+export class UserOperationsService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly helpers: HelpersService,
+    private readonly userHelper: UserHelperService,
   ) {}
 
+  /**
+   * Verify a user
+   * @param id - The ID of the user to verify
+   * @returns The verified user
+   */
   async verify(id: number) {
     try {
-      await this.helpers.getIdOrThrow<User>('user', id, 'User');
-      return this.prisma.user.update({
+      const user = await this.helpers.getIdOrThrow<User>('user', id, 'User');
+
+      if (user.isVerified) {
+        throw new BadRequestException('User is already verified');
+      }
+
+      const updatedUser = await this.prisma.user.update({
         where: { id },
         data: { isVerified: true },
       });
+
+      return this.userHelper.excludePassword(updatedUser);
     } catch (error) {
       throw new BadRequestException('Error verifying user: ' + error.message);
+    }
+  }
+
+  async setRole(id: number, role: Role) {
+    try {
+      await this.helpers.getIdOrThrow<User>('user', id, 'User');
+
+      const updatedUser = await this.prisma.user.update({
+        where: { id },
+        data: { role },
+      });
+
+      return this.userHelper.excludePassword(updatedUser);
+    } catch (error) {
+      throw new BadRequestException('Error setting user role: ' + error.message);
     }
   }
 }
