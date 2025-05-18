@@ -1,56 +1,114 @@
 # Node.js
 node_modules/
-npm-debug.log
-yarn-debug.log
-yarn-error.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
 # Build output
 dist/
+build/
 .next/
 out/
+coverage/
+temp/
+tmp/
 
-# dotenv environment variables file
+# dotenv environment variables
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+*.log.*
+*.pid
+*.seed
+*.gz
 
 # IDEs and editors
 .vscode/
 .idea/
 *.sublime-workspace
 *.sublime-project
+*.code-workspace
 
-# Logs
-logs/
-*.log
-pids/
-*.pid
-*.seed
-*.gz
+# System files
+.DS_Store
+Thumbs.db
+Desktop.ini
 
-# Dependency directories
-node_modules/
+# OS generated files
+ehthumbs.db
+Icon?
+._*
+
+# TypeScript
+*.tsbuildinfo
+
+# Jest
+coverage/
+jest-cache/
+jest-output/
+
+# PM2
+.pids/
+dump.rdb
+
+# ESLint
+.eslintcache
+
+# Stylelint
+.stylelintcache
+
+# Prettier
+.prettiercache
 
 # Next.js
 .next/
 out/
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
 
 # NestJS
 dist/
-*.log
+
+# Prisma
+prisma/generated/
+prisma/migrations/
+*.db
+*.sqlite
+
+# Docker
+docker-compose.override.yml
+.docker/
+.dockerignore
 
 # Mac system files
-.DS_Store
-Thumbs.db
+.AppleDouble
+.LSOverride
 
-# Windows system files
-Desktop.ini
+# Windows
+$RECYCLE.BIN/
+*.lnk
 
-# Prisma generated files
-generated/
+# Optional: OS crash reports
+*.dmp
+*.stackdump
+
+# Optional: test outputs
+test-results/
+tests/output/
+
+# Optional: local scripts or dev tools
+scripts/local/
+tools/local/
+
+# Optional: coverage reports
+coverage/
+.nyc_output/
+
+# Optional: local SSL certs
+certs/
+*.pem
+*.key
+*.crt

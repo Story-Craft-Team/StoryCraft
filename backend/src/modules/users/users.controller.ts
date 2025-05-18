@@ -116,29 +116,47 @@ export class UsersController {
     return this.usersService.verify(+id);
   }
 
+  @Get('followers/:userId')
+  @ApiOperation({ summary: 'Find all followers of a user' })
+  @ApiParam({ name: 'userId', type: 'number', description: 'User ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns a list of followers for the specified user',
+  })
+  @ApiResponse({ status: 404, description: 'User not found' })
+  findAllFollowers(@Param('userId') userId: string) {
+    return this.usersService.findAllFollowers(+userId);
+  }
+
   @Post('follow/:userId/:followerId')
   @ApiOperation({ summary: 'Follow a user' })
-  @ApiParam({ name: 'userId', type: 'number', description: 'User ID' })
-  @ApiParam({ name: 'followerId', type: 'number', description: 'Follower ID' })
-  @ApiResponse({ status: 200, description: 'User has been successfully followed.' })
-  @ApiResponse({ status: 404, description: 'User not found' })
+  @ApiParam({ name: 'userId', type: 'string', description: 'User ID' })
+  @ApiParam({ name: 'followerId', type: 'string', description: 'Follower ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'User has been successfully followed.',
+  })
+  @ApiResponse({ status: 404, description: 'User or follower not found' })
   follow(
-    @Param('userId', ParseIntPipe) userId: number,
-    @Param('followerId', ParseIntPipe) followerId: number,
+    @Param('userId') userId: string,
+    @Param('followerId') followerId: string,
   ) {
-    return this.usersService.follow(userId, followerId);
+    return this.usersService.follow(+userId, +followerId);
   }
-  
-  @Post('unfollow/:userId/:followerId')
+
+  @Delete('unfollow/:userId/:followerId')
   @ApiOperation({ summary: 'Unfollow a user' })
-  @ApiParam({ name: 'userId', type: 'number', description: 'User ID' })
-  @ApiParam({ name: 'followerId', type: 'number', description: 'Follower ID' })
-  @ApiResponse({ status: 200, description: 'User has been successfully unfollowed.' })
-  @ApiResponse({ status: 404, description: 'User not found' })
+  @ApiParam({ name: 'userId', type: 'string', description: 'User ID' })
+  @ApiParam({ name: 'followerId', type: 'string', description: 'Follower ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'User has been successfully unfollowed.',
+  })
+  @ApiResponse({ status: 404, description: 'User or follower not found' })
   unfollow(
-    @Param('userId', ParseIntPipe) userId: number,
-    @Param('followerId', ParseIntPipe) followerId: number,
+    @Param('userId') userId: string,
+    @Param('followerId') followerId: string,
   ) {
-    return this.usersService.unfollow(userId, followerId);
+    return this.usersService.unfollow(+userId, +followerId);
   }
 }
