@@ -1,17 +1,50 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { PrismaService } from "src/modules/prisma/prisma.service";
+import { HelpersService } from "src/modules/helpers/helpers.service";
+import { Follow, User } from "@prisma/client";
 
 @Injectable()
 export class UserFollowsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService, private readonly helperService: HelpersService) {}
+
+  async findAllFollowers(userId: number) {
+    try {
+      this.helperService.getIdOrThrow<User>('user', userId, 'User');
+      return this.prisma.follow.findMany({
+        where: {
+          followingId: userId,
+        },
+        include: {
+          followedUser: true,
+        },
+      });
+    } catch (error) {
+      throw new BadRequestException(
+        `Error finding followers for user with ID ${userId}: ${error.message}`,
+      );
+    }
+  }
 
   async follow(userId: number, followerId: number) {
     try {
-      const user = await this.prisma.user.findUnique({ where: { id: userId } });
-      const follower = await this.prisma.user.findUnique({ where: { id: followerId } });
-  
-      if (!user || !follower) {
-        throw new BadRequestException("User or follower not found");
+      this.helperService.getIdOrThrow<User>('user', userId, 'User');
+      this.helperService.getIdOrThrow<User>('user', followerId, 'User');
+
+      if (userId === followerId) {
+        throw new BadRequestException('You cannot follow yourself');
+      }
+
+      const follow = await this.prisma.follow.findUnique({
+        where: {
+          followerId_followingId: {
+            followerId,
+            followingId: userId,
+          },
+        },
+      });
+
+      if (follow) {
+        throw new BadRequestException('You are already following this user');
       }
   
       await this.prisma.follow.create({
@@ -31,7 +64,7 @@ export class UserFollowsService {
       });
     } catch (error) {
       throw new BadRequestException(
-        `Error following user with ID ${userId}: ${error.message}`,
+        `Error following user with ID ${userId} and follower ID ${followerId}: ${error.message}`,
       );
     }
   }

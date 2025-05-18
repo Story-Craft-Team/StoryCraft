@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:$deltaq123@localhost:5432/storydb?schema=public"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -22,17 +22,17 @@ model User {
   stories         Story[]       @relation("UserStories")
   settings        UserSettings?
   favoriteStories Story[]       @relation("UserFavoriteStories")
-  followedUsers    Follow[] @relation("UserFollowing")
-  followingUsers    Follow[] @relation("UserFollowed")
+  followedUsers   Follow[]      @relation("UserFollowing")
+  followingUsers  Follow[]      @relation("UserFollowed")
 }
 
 model Follow {
-  id           Int    @id @default(autoincrement())
-  followerId   Int
-  followingId  Int
+  id          Int @id @default(autoincrement())
+  followerId  Int
+  followingId Int
 
-  followedUser     User   @relation("UserFollowed", fields: [followerId], references: [id])
-  followingUser    User   @relation("UserFollowing", fields: [followingId], references: [id])
+  followedUser  User @relation("UserFollowed", fields: [followerId], references: [id])
+  followingUser User @relation("UserFollowing", fields: [followingId], references: [id])
 
   @@unique([followerId, followingId])
 }
@@ -76,7 +76,7 @@ model UserSettings {
   theme    String @default("dark")
   language String @default("en")
   userId   Int    @unique
-    user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum Role {

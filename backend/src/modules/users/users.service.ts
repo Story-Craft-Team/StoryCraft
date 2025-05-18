@@ -38,6 +38,10 @@ export class UsersService {
     return this.userOperations.verify(id);
   }
 
+  findAllFollowers(userId: number) {
+    return this.userFollows.findAllFollowers(userId);
+  }
+
   follow(userId: number, followId: number) {
     return this.userFollows.follow(userId, followId);
   }
