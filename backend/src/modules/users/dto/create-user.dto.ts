@@ -15,7 +15,7 @@ import { Type } from 'class-transformer';
 export class CreateUserDto {
   @ApiProperty({
     description: 'Username of the user',
-    type: String,
+    type: () => String,
     example: 'john_doe',
   })
   @IsString()
@@ -25,7 +25,7 @@ export class CreateUserDto {
 
   @ApiProperty({
     description: 'Email address of the user',
-    type: String,
+    type: () => String,
     example: 'john.doe@example.com',
   })
   @IsEmail()
@@ -33,7 +33,7 @@ export class CreateUserDto {
 
   @ApiProperty({
     description: 'Password of the user',
-    type: String,
+    type: () => String,
     example: 'strongPassword123',
   })
   @IsString()
@@ -41,7 +41,7 @@ export class CreateUserDto {
 
   @ApiProperty({
     description: 'Display name of the user (optional)',
-    type: String,
+    type: () => String,
     example: 'John Doe',
     required: false,
   })
@@ -52,7 +52,7 @@ export class CreateUserDto {
 
   @ApiProperty({
     description: "URL to the user's avatar image (optional)",
-    type: String,
+    type: () => String,
     example: 'https://example.com/avatar.jpg',
     required: false,
   })
@@ -63,12 +63,18 @@ export class CreateUserDto {
 
   @ApiProperty({
     description: 'Role of the user',
+    type: () => String,
     enum: ['admin', 'moderator', 'reader'],
     example: 'reader',
   })
   @IsEnum(['admin', 'moderator', 'reader'])
   role: 'admin' | 'moderator' | 'reader';
 
+  @ApiProperty({
+    description: 'User settings',
+    type: () => UserSettingsDto,
+    required: false,
+  })
   @IsOptional()
   @ValidateNested()
   @Type(() => UserSettingsDto)

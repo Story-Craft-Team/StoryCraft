@@ -4,6 +4,7 @@ import { CreateStoryDto } from '../dto/create-story.dto';
 import { Story } from '@prisma/client';
 import { UpdateStoryDto } from '../dto/update-story.dto';
 import { HelpersService } from 'src/modules/helpers/helpers.service';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class StoryCrudService {
@@ -22,9 +23,9 @@ export class StoryCrudService {
   }
 
   // findAll
-  async findAll(): Promise<Story[]> {
+  async findAll(options?: Prisma.StoryFindManyArgs): Promise<Story[]> {
     try {
-      return await this.prisma.story.findMany();
+      return await this.prisma.story.findMany(options);
     } catch (error) {
       throw new BadRequestException(
         'Error retrieving stories: ' + error.message,
@@ -42,7 +43,7 @@ export class StoryCrudService {
   }
 
   // update
-  async update(id: number, dto: UpdateStoryDto): Promise<Story> {
+  async update(id: number, dto: UpdateStoryDto | Prisma.StoryUpdateInput): Promise<Story> {
     try {
       await this.helpers.getIdOrThrow<Story>('story', id, 'Story');
       return await this.prisma.story.update({ where: { id }, data: dto });

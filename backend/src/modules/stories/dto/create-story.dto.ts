@@ -1,44 +1,42 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNumber, IsString } from "class-validator";
+import { IsString, IsOptional, IsBoolean, IsNumber, MaxLength, MinLength } from "class-validator";
 
 export class CreateStoryDto {
   @ApiProperty({
     description: 'Title of the story',
-    type: String,
-    example: 'My First Story',
+    type: () => String,
+    example: 'My Amazing Story',
   })
   @IsString()
+  @MaxLength(100)
+  @MinLength(3)
   title: string;
 
   @ApiProperty({
-    description: 'Author ID of the story',
-    type: Number,
+    description: 'Content of the story',
+    type: () => String,
+    example: 'Once upon a time...',
+  })
+  @IsString()
+  @MaxLength(50000)
+  @MinLength(10)
+  content: string;
+
+  @ApiProperty({
+    description: 'Whether the story is published',
+    type: () => Boolean,
+    example: false,
+    default: false,
+  })
+  @IsBoolean()
+  @IsOptional()
+  isPublished?: boolean;
+
+  @ApiProperty({
+    description: 'ID of the author',
+    type: () => Number,
     example: 1,
   })
   @IsNumber()
   authorId: number;
-
-  @ApiProperty({
-    description: 'Description of the story',
-    type: String,
-    example: 'This is my first story',
-  })
-  @IsString()
-  description: string;
-
-  @ApiProperty({
-    description: 'Image URL of the story',
-    type: String,
-    example: 'https://example.com/image.jpg',
-  })
-  @IsString()
-  image: string;
-
-  @ApiProperty({
-    description: 'Is the story public?',
-    type: Boolean,
-    example: true,
-  })
-  @IsString()
-  isPublic: boolean;
 }

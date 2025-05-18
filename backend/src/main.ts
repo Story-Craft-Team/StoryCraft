@@ -22,7 +22,11 @@ async function bootstrap() {
 
     // Create and configure Swagger
     const swaggerConfig = createSwaggerConfig();
-    const document = SwaggerModule.createDocument(app, swaggerConfig); // Generate Swagger documentation
+    const document = SwaggerModule.createDocument(app, swaggerConfig, {
+      extraModels: [], // Add any extra models here if needed
+      deepScanRoutes: true,
+      ignoreGlobalPrefix: true,
+    });
 
     // Setup Swagger UI at /api-docs path
     SwaggerModule.setup('api-docs', app, document);
