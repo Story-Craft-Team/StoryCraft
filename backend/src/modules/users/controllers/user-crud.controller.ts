@@ -6,6 +6,9 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 import { UserCrudService } from '../services/user-crud.service';
 import { ApiTags } from '@nestjs/swagger';
 import { Controller } from '@nestjs/common';
+import { RolesGuard } from 'src/common/guards/roles.guard';
+import { Roles } from 'src/modules/auth/decorators/roles.decorator';
+import { Role } from '@prisma/client';
 
 @ApiTags('User')
 @Controller('users')
@@ -46,7 +49,8 @@ export class UserCrudController {
 
   // Update
   @Patch(':id')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.admin, Role.moderator)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update an existing user' })
   @ApiParam({ name: 'id', type: 'string', description: 'User ID' })
@@ -65,7 +69,8 @@ export class UserCrudController {
 
   // Delete
   @Delete(':id')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.admin, Role.moderator)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete a user' })
   @ApiParam({ name: 'id', type: 'string', description: 'User ID' })
@@ -80,4 +85,6 @@ export class UserCrudController {
   remove(@Param('id') id: string) {
     return this.userCrudService.remove(+id);
   }
+
+  
 }

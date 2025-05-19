@@ -11,7 +11,7 @@ import { Prisma, User } from '@prisma/client';
 import { HelpersService } from 'src/modules/helpers/services/helpers.service';
 import { BcryptService } from 'src/modules/bcrypt/services/bcrypt.service';
 import { UserHelperService } from 'src/modules/helpers/services/user-helpers.service';
-import { USER_INCLUDE } from 'src/shared/constants';
+import { USER_INCLUDE } from 'src/common/constants';
 
 @Injectable()
 export class UserCrudService {

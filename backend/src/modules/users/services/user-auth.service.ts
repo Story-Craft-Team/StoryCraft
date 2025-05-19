@@ -10,7 +10,7 @@ import { User } from '@prisma/client';
 import { BcryptService } from 'src/modules/bcrypt/services/bcrypt.service';
 import { AuthService } from 'src/modules/auth/services/auth.service';
 import { UserHelperService } from 'src/modules/helpers/services/user-helpers.service';
-import { USER_INCLUDE } from 'src/shared/constants';
+import { USER_INCLUDE } from 'src/common/constants';
 import { LoginUserDto } from '../dto/login-user.dto';
 
 @Injectable()

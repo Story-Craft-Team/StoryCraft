@@ -1,10 +1,16 @@
-import { UserFollowsService } from "../services/user-follows.service";
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiParam } from "@nestjs/swagger";
-import { UseGuards } from "@nestjs/common";
-import { JwtAuthGuard } from "src/modules/auth/guards/jwt-auth.guard";
-import { Param, Post, Delete, Get } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
-import { Controller } from "@nestjs/common";
+import { UserFollowsService } from '../services/user-follows.service';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiParam,
+} from '@nestjs/swagger';
+import { Request, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
+import { Param, Post, Delete, Get } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { Controller } from '@nestjs/common';
+import { AuthRequest } from 'src/common/types';
 
 @ApiTags('User Follows')
 @Controller('users/follows')
@@ -25,41 +31,32 @@ export class UserFollowsController {
   }
 
   // Follow
-  @Post('follow/:userId/:followerId')
+  @Post('follow/:followerId')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Follow a user' })
-  @ApiParam({ name: 'userId', type: 'string', description: 'User ID' })
   @ApiParam({ name: 'followerId', type: 'string', description: 'Follower ID' })
   @ApiResponse({
     status: 200,
     description: 'User has been successfully followed.',
   })
   @ApiResponse({ status: 404, description: 'User or follower not found' })
-  follow(
-    @Param('userId') userId: string,
-    @Param('followerId') followerId: string,
-  ) {
-    return this.userFollowsService.follow(+userId, +followerId);
+  follow(@Request() req: AuthRequest, @Param('followerId') followerId: string) {
+    return this.userFollowsService.follow(+req.user.id, +followerId);
   }
 
   // Unfollow
-  @Delete('unfollow/:userId/:followerId')
+  @Delete('unfollow/:followerId')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Unfollow a user' })
-  @ApiParam({ name: 'userId', type: 'string', description: 'User ID' })
   @ApiParam({ name: 'followerId', type: 'string', description: 'Follower ID' })
   @ApiResponse({
     status: 200,
     description: 'User has been successfully unfollowed.',
   })
   @ApiResponse({ status: 404, description: 'User or follower not found' })
-  unfollow(
-    @Param('userId') userId: string,
-    @Param('followerId') followerId: string,
-  ) {
-    return this.userFollowsService.unfollow(+userId, +followerId);
+  unfollow(@Request() req: AuthRequest, @Param('followerId') followerId: string) {
+    return this.userFollowsService.unfollow(+req.user.id, +followerId);
   }
-  
 }

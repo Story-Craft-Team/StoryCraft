@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { BCRYPT_SALT_ROUNDS } from 'src/shared/constants';
+import { BCRYPT_SALT_ROUNDS } from 'src/common/constants';
 
 @Injectable()
 export class BcryptService {
