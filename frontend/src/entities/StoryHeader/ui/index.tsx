@@ -17,23 +17,22 @@ export default function StoryHeader({
   const pathname = usePathname();
   const isEditorMode = pathname.startsWith("/editor");
 
-
-
   return (
-    <div className={s.story_block}>
-      {isEditorMode && onChangeTitle ? (
-        <input
-          type="text"
-          className={s.title_input}
-          aria-label="Название истории"
-          value={title}
-          onChange={(e) => onChangeTitle(e.target.value)}
-          placeholder="Название истории"
-        />
-      ) : (
-        <h2 className={s.title_text}>{title}</h2>
-      )}
-
+    <div className={`${s.story_block} `}>
+      <div className={isEditorMode ? s.editor_mode : ""}>
+        {isEditorMode && onChangeTitle ? (
+          <input
+            type="text"
+            className={s.title_input}
+            aria-label="Название истории"
+            value={title}
+            onChange={(e) => onChangeTitle(e.target.value)}
+            placeholder="Название истории"
+          />
+        ) : (
+          <h2 className={s.title_text}>{title}</h2>
+        )}
+      </div>
       <div className={s.scene_count}>
         <span className={s.label}>Количество сцен: {sceneCount}</span>
       </div>

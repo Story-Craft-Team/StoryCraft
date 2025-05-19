@@ -7,13 +7,51 @@ export const storyEditorSlice: StateCreator<
   [],
   StoryEditorSlice
 > = (set, get) => ({
-  title: "",
-  author: "",
-  authorId: "",
-  description: "",
+  title: "Плаг",
+  author: "lovecult",
+  authorId: "123123",
+  description: "Вас обнанули, и вы ищете плага",
   image: "",
   isPublic: false,
-  scenes: [],
+  scenes: [
+    {
+      id: 1,
+      title: "Вы выезжаете с братом искать плага",
+      description:
+        "Вы оказываетесь в раздумьях куда поезхать. Куда выберите поехать?",
+      isEnd: false,
+      choices: [
+        {
+          id: 0,
+          text: "В бутово",
+          nextScene: 1001,
+          access: true,
+        },
+        {
+          id: 1,
+          text: "В митино",
+          nextScene: 1002,
+          access: true,
+        },
+      ],
+    },
+    {
+      id: 2,
+      title: "Вы приехали в бутово",
+      description:
+        "Вы обнаружили плага, и забрали деньги обратно!",
+      isEnd: true,
+      choices: [],
+    },
+    {
+      id: 3,
+      title: "Вы приехали в митино",
+      description:
+        "Вы никого не нашли, он улетел на самолете в другую страну!",
+      isEnd: true,
+      choices: [],
+    },
+  ],
 
   setTitle: (title) => set({ title }),
   setAuthor: (author) => set({ author }),
