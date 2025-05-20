@@ -13,10 +13,14 @@ export default function StoryEditor() {
   const setChoiceNextScene = useStore((state) => state.setChoiceNextScene);
   const setChoiceAccess = useStore((state) => state.setChoiceAccess);
   const addNewChoice = useStore((state) => state.addNewChoice);
+  const setIsPublic = useStore((state) => state.setIsPublic);
+  const isPublic = useStore((state) => state.isPublic);
 
   return (
     <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "2rem" }}>
-      <h1 style={{ fontSize: "1.8rem", marginBottom: "1rem" }}>Редактор истории</h1>
+      <h1 style={{ fontSize: "1.8rem", marginBottom: "1rem" }}>
+        Редактор истории
+      </h1>
 
       {/* Список сцен */}
       {scenes.map((scene) => (
@@ -83,8 +87,7 @@ export default function StoryEditor() {
                   borderRadius: "4px",
                 }}
               />
-              <input
-                type="number"
+              <select
                 value={choice.nextScene}
                 onChange={(e) =>
                   setChoiceNextScene(
@@ -93,15 +96,24 @@ export default function StoryEditor() {
                     Number(e.target.value)
                   )
                 }
-                placeholder="ID следующей сцены"
                 style={{
-                  width: "120px",
                   padding: "0.4rem",
                   border: "1px solid #ccc",
                   borderRadius: "4px",
+                  minWidth: "160px",
                 }}
-              />
-              <label style={{ display: "flex", alignItems: "center", gap: "0.3rem" }}>
+              >
+                <option value={0}>Выберите сцену
+                </option>
+                  {scenes.filter((s)=> s.id !== scene.id).map((s) => (
+                    <option key={s.id} value={s.id}>
+                      {s.title || `Сцена ${s.id}`}
+                    </option>
+                  ))}
+              </select>
+              <label
+                style={{ display: "flex", alignItems: "center", gap: "0.3rem" }}
+              >
                 <input
                   type="checkbox"
                   checked={choice.access}
@@ -146,6 +158,66 @@ export default function StoryEditor() {
       >
         ➕ Добавить сцену
       </button>
+      <div
+        style={{
+          marginTop: "3rem",
+          display: "flex",
+          justifyContent: "flex-end",
+          gap: "1rem",
+        }}
+      >
+        <button
+          onClick={() =>
+            // логика сохранения
+            console.log("Черновик сохранен")
+          }
+          style={buttonStyle}
+        >
+          💾 Сохранить
+        </button>
+        <button
+          onClick={() => setIsPublic(true)}
+          disabled={isPublic}
+          style={{
+            ...buttonStyle,
+            backgroundColor: isPublic ? "#aaa" : "#4CAF50",
+            cursor: isPublic ? "not-allowed" : "pointer",
+          }}
+        >
+          🌐 Опубликовать
+        </button>
+        <button
+          onClick={() => setIsPublic(false)}
+          disabled={!isPublic}
+          style={{
+            ...buttonStyle,
+            backgroundColor: !isPublic ? "#aaa" : "#4CAF50",
+            cursor: !isPublic ? "not-allowed" : "pointer",
+          }}
+        >
+          ❌ Отменить публикацию
+        </button>
+        {/* <button
+          onClick={() => {
+            if (confirm("Удалить историю полностью?")) resetStory();
+          }}
+          style={{
+            ...buttonStyle,
+            backgroundColor: "#d32f2f",
+          }}
+        >
+          🗑 Удалить
+        </button> */}
+      </div>
     </div>
   );
 }
+const buttonStyle = {
+  padding: "0.6rem 1.2rem",
+  fontSize: "1rem",
+  borderRadius: "6px",
+  border: "none",
+  color: "white",
+  backgroundColor: "#2196F3",
+  cursor: "pointer",
+};

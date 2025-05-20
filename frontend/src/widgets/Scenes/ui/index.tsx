@@ -3,7 +3,7 @@
 import { Scene } from "@/features";
 import s from "./Scenes.module.scss";
 import { useShallow } from "zustand/shallow";
-import { useStore } from "@/common/store";
+import { useStore } from "@/shared/store";
 
 export default function Scenes() {
 	const { scenes, addNewScene } = useStore(useShallow((state) => state));

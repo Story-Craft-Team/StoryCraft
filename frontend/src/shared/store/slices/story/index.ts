@@ -60,6 +60,7 @@ export const storyEditorSlice: StateCreator<
   setImage: (image) => set({ image }),
   setIsPublic: (isPublic) => set({ isPublic }),
   setScenes: (scenes) => set({ scenes }),
+  
 
   addNewScene: () =>
     set({

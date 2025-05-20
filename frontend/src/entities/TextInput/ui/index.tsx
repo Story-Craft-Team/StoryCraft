@@ -1,5 +1,5 @@
+import { useStore } from "@/shared/store";
 import s from "./TextInput.module.scss";
-import { useStore } from "@/common/store";
 import { useShallow } from "zustand/shallow";
 
 type Props = {
