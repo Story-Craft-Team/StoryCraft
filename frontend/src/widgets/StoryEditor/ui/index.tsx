@@ -1,6 +1,14 @@
 "use client";
-import { Scene } from "@/features";
 import { useStore } from "@/shared/store";
+
+const colors = {
+  bg: "#1a1a1a",
+  panel: "#2a2a2a",
+  text: "#f0f0f0",
+  accent: "#ff5722",
+  inputBg: "#333",
+  inputBorder: "#444",
+};
 
 export default function StoryEditor() {
   const title = useStore((state) => state.title);
@@ -10,35 +18,39 @@ export default function StoryEditor() {
   const scenes = useStore((state) => state.scenes);
   const setSceneTitle = useStore((state) => state.setSceneTitle);
   const setSceneDescription = useStore((state) => state.setSceneDescription);
-
   const addNewScene = useStore((state) => state.addNewScene);
   const setChoiceText = useStore((state) => state.setChoiceText);
   const setChoiceNextScene = useStore((state) => state.setChoiceNextScene);
   const setChoiceAccess = useStore((state) => state.setChoiceAccess);
   const addNewChoice = useStore((state) => state.addNewChoice);
   const setIsPublic = useStore((state) => state.setIsPublic);
+  const setSceneMaxChoices = useStore((state) => state.setSceneMaxChoices);
+  const setSceneIsEnd = useStore((state) => state.setSceneIsEnd);
   const isPublic = useStore((state) => state.isPublic);
 
   return (
-    <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "1rem" }}>
-      <h1 style={{ fontSize: "1.8rem", marginBottom: "1rem" }}>
-        Редактор истории
-      </h1>
-
-      {/* Список сцен */}
+    <div
+      style={{
+        maxWidth: "1200px",
+        margin: "0 auto",
+        padding: "1rem",
+        backgroundColor: colors.bg,
+        color: colors.text,
+        minHeight: "100vh",
+      }}
+    >
       {scenes.map((scene) => (
         <div
           key={scene.id}
           style={{
-            border: "1px solid #ddd",
+            background: colors.panel,
+            border: `1px solid ${colors.inputBorder}`,
             borderRadius: "8px",
             padding: "1rem",
             marginBottom: "1.5rem",
-            boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
-            background: "#fafafa",
+            boxShadow: "0 2px 4px rgba(0,0,0,0.3)",
           }}
         >
-          {/* Строка с ID и заголовком сцены */}
           <div
             style={{
               display: "flex",
@@ -49,9 +61,10 @@ export default function StoryEditor() {
             <span
               style={{
                 fontWeight: "bold",
-                minWidth: "0rem",
-                paddingRight: "1rem",
-                paddingLeft: ".1rem",
+                minWidth: "1rem",
+                paddingRight: "0.6rem",
+                color: colors.accent,
+                fontSize: "2rem",
               }}
             >
               {scene.id}
@@ -65,11 +78,14 @@ export default function StoryEditor() {
                 flexGrow: 1,
                 padding: "0.5rem",
                 fontSize: "1rem",
-                border: "1px solid #ccc",
-                borderRadius: "4px",
+                border: `1px solid ${colors.inputBorder}`,
+                borderRadius: "6px",
+                backgroundColor: colors.inputBg,
+                color: colors.text,
               }}
             />
           </div>
+
           <textarea
             value={scene.description}
             onChange={(e) => setSceneDescription(scene.id, e.target.value)}
@@ -79,18 +95,96 @@ export default function StoryEditor() {
               minHeight: "80px",
               padding: "0.5rem",
               fontSize: "1rem",
-              border: "1px solid #ccc",
+              border: `1px solid ${colors.inputBorder}`,
               borderRadius: ".3rem",
               resize: "vertical",
               lineHeight: "1.4",
-              background: "white",
-              color: "#333",
+              background: colors.inputBg,
+              color: colors.text,
               marginBottom: "1rem",
               marginLeft: "1.6rem",
             }}
           />
-          <span>тест гита</span>
-          {/* Список выборов */}
+
+          <div
+            style={{
+              marginLeft: "1.6rem",
+              marginBottom: "1rem",
+              display: "flex",
+              gap: "2rem",
+              alignItems: "center",
+            }}
+          >
+            <label
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.4rem",
+                cursor: "pointer",
+              }}
+            >
+              <input
+                type="checkbox"
+                checked={scene.isEnd}
+                onChange={(e) => setSceneIsEnd(scene.id, e.target.checked)}
+                style={{ display: "none" }} // скрываем оригинальный чекбокс
+              />
+              <span
+                style={{
+                  width: "18px",
+                  height: "18px",
+                  border: `2px solid black`,
+                  borderRadius: "4px",
+                  backgroundColor: scene.isEnd ? "#000" : "transparent",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  transition: "background-color 0.2s, border-color 0.2s",
+                }}
+              >
+                {scene.isEnd && (
+                  <svg
+                    viewBox="0 0 24 24"
+                    style={{
+                      width: "14px",
+                      height: "14px",
+                      fill: "#fff",
+                    }}
+                  >
+                    <path d="M9 16.2l-3.5-3.5L4 14.3l5 5 12-12-1.4-1.4z" />
+                  </svg>
+                )}
+              </span>
+              <span>Это концовка?</span>
+            </label>
+            
+
+            <label
+              style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
+            >
+              Макс. выборов:
+              <select
+                value={scene.maxChoices}
+                onChange={(e) =>
+                  setSceneMaxChoices(scene.id, parseInt(e.target.value))
+                }
+                style={{
+                  padding: "0.4rem",
+                  backgroundColor: colors.inputBg,
+                  color: colors.text,
+                  border: `1px solid ${colors.inputBorder}`,
+                  borderRadius: "4px",
+                }}
+              >
+                {[1, 2, 3, 4, 5, 6].map((num) => (
+                  <option key={num} value={num}>
+                    {num}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+
           {scene.choices.map((choice) => (
             <div
               key={choice.id}
@@ -99,10 +193,8 @@ export default function StoryEditor() {
                 flexDirection: "column",
                 gap: "0.5rem",
                 marginBottom: "1rem",
-                borderRadius: "6px",
               }}
             >
-              {/* Выбор ID + текст */}
               <div
                 style={{
                   display: "flex",
@@ -110,7 +202,7 @@ export default function StoryEditor() {
                   gap: "0.5rem",
                 }}
               >
-                <span style={{ fontWeight: "bold", minWidth: "1.1rem" }}>
+                <span style={{ fontWeight: "bold", color: "#fff" }}>
                   {choice.id}
                 </span>
                 <input
@@ -124,13 +216,15 @@ export default function StoryEditor() {
                     flex: 1,
                     padding: "0.4rem",
                     fontSize: "1rem",
-                    border: "1px solid #ccc",
+                    backgroundColor: colors.inputBg,
+                    border: `1px solid ${colors.inputBorder}`,
                     borderRadius: "4px",
+                    color: colors.text,
+                    marginLeft: "0.6rem",
                   }}
                 />
               </div>
 
-              {/* Управление переходами и доступом */}
               <div
                 style={{
                   display: "flex",
@@ -152,23 +246,18 @@ export default function StoryEditor() {
                   style={{
                     padding: "0.4rem",
                     fontSize: "1rem",
-                    border: "1px solid #ccc",
+                    backgroundColor: colors.inputBg,
+                    border: `1px solid ${colors.inputBorder}`,
                     borderRadius: "4px",
                     minWidth: "20rem",
-                    cursor: "pointer",
+                    color: colors.text,
                   }}
                 >
-                  <option style={{ cursor: "pointer" }} value={0}>
-                    Выберите следующую сцену
-                  </option>
+                  <option value={0}>Выберите следующую сцену</option>
                   {scenes
                     .filter((s) => s.id !== scene.id)
                     .map((s) => (
-                      <option
-                        style={{ cursor: "pointer" }}
-                        key={s.id}
-                        value={s.id}
-                      >
+                      <option key={s.id} value={s.id}>
                         {s.title || `Сцена ${s.id}`}
                       </option>
                     ))}
@@ -179,7 +268,7 @@ export default function StoryEditor() {
                     display: "flex",
                     alignItems: "center",
                     gap: "0.4rem",
-                    fontSize: "0.95rem",
+                    cursor: "pointer",
                   }}
                 >
                   <input
@@ -188,23 +277,53 @@ export default function StoryEditor() {
                     onChange={(e) =>
                       setChoiceAccess(scene.id, choice.id, e.target.checked)
                     }
+                    style={{ display: "none" }} // скрываем оригинальный чекбокс
                   />
-                  Доступ
+                  <span
+                    style={{
+                      width: "18px",
+                      height: "18px",
+                      border: "2px solid black",
+                      borderRadius: "4px",
+                      backgroundColor: choice.access ? "#000" : "transparent",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      transition: "background-color 0.2s, border-color 0.2s",
+                    }}
+                  >
+                    {choice.access && (
+                      <svg
+                        viewBox="0 0 24 24"
+                        style={{
+                          width: "14px",
+                          height: "14px",
+                          fill: "#fff",
+                        }}
+                      >
+                        <path d="M9 16.2l-3.5-3.5L4 14.3l5 5 12-12-1.4-1.4z" />
+                      </svg>
+                    )}
+                  </span>
+                  <span>Доступ</span>
                 </label>
               </div>
             </div>
           ))}
-          {/* TODO сделать ограничения динамическое ограничение в зависимости от кол-ва выборов в начале */}
-          {scene.choices.length < 6 && (
+
+          {scene.choices.length < scene.maxChoices && (
             <button
               onClick={() => addNewChoice(scene.id)}
               style={{
                 marginTop: "0.5rem",
-                background: "#eee",
+                marginLeft: "1.6rem",
+                background: colors.accent,
                 border: "none",
+                color: "#fff",
                 padding: "0.4rem 0.8rem",
                 borderRadius: "4px",
                 cursor: "pointer",
+                fontWeight: "bold",
               }}
             >
               + Добавить выбор
@@ -214,9 +333,10 @@ export default function StoryEditor() {
       ))}
 
       <button
+        onClick={addNewScene}
         style={{
           width: "100%",
-          background: "#4CAF50",
+          background: colors.accent,
           color: "#fff",
           padding: "0.8rem",
           borderRadius: "6px",
@@ -224,11 +344,12 @@ export default function StoryEditor() {
           fontSize: "1rem",
           cursor: "pointer",
           marginTop: "1rem",
+          fontWeight: "bold",
         }}
-        onClick={addNewScene}
       >
-        ➕ Добавить сцену
+        + Добавить сцену
       </button>
+
       <div
         style={{
           marginTop: "3rem",
@@ -237,13 +358,7 @@ export default function StoryEditor() {
           gap: "1rem",
         }}
       >
-        <button
-          onClick={() =>
-            // логика сохранения
-            console.log("Черновик сохранен")
-          }
-          style={buttonStyle}
-        >
+        <button onClick={() => console.log("Сохранено")} style={buttonStyle}>
           💾 Сохранить
         </button>
         <button
@@ -251,7 +366,7 @@ export default function StoryEditor() {
           disabled={isPublic}
           style={{
             ...buttonStyle,
-            backgroundColor: isPublic ? "#aaa" : "#4CAF50",
+            backgroundColor: isPublic ? "#666" : colors.accent,
             cursor: isPublic ? "not-allowed" : "pointer",
           }}
         >
@@ -262,27 +377,17 @@ export default function StoryEditor() {
           disabled={!isPublic}
           style={{
             ...buttonStyle,
-            backgroundColor: !isPublic ? "#aaa" : "#4CAF50",
+            backgroundColor: !isPublic ? "#666" : "#d32f2f",
             cursor: !isPublic ? "not-allowed" : "pointer",
           }}
         >
           ❌ Отменить публикацию
         </button>
-        {/* <button
-          onClick={() => {
-            if (confirm("Удалить историю полностью?")) resetStory();
-          }}
-          style={{
-            ...buttonStyle,
-            backgroundColor: "#d32f2f",
-          }}
-        >
-          🗑 Удалить
-        </button> */}
       </div>
     </div>
   );
 }
+
 const buttonStyle = {
   padding: "0.6rem 1.2rem",
   fontSize: "1rem",
@@ -291,4 +396,5 @@ const buttonStyle = {
   color: "white",
   backgroundColor: "#2196F3",
   cursor: "pointer",
+  fontWeight: "bold",
 };

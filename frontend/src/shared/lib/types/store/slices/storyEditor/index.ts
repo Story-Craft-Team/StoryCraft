@@ -15,6 +15,8 @@ type StoryEditorAction = {
   setSceneTitle: (sceneId: number, title: string) => void;
   setSceneDescription: (sceneId: number, description: string) => void;
   setSceneIsEnd: (sceneId: number, isEnd: boolean) => void;
+  setSceneMaxChoices: (sceneId: number, maxChoices: number) => void;
+  
   setSceneImage: (sceneId: number, image: string) => void;
 
   setChoiceText: (sceneId: number, choiceId: number, text: string) => void;

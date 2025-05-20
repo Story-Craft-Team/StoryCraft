@@ -20,6 +20,7 @@ export const storyEditorSlice: StateCreator<
       description:
         "Вы оказываетесь в раздумьях куда поехать. Куда выберите поехать?",
       isEnd: false,
+      maxChoices: 0,
       choices: [
         {
           id: 1,
@@ -40,6 +41,7 @@ export const storyEditorSlice: StateCreator<
       title: "Вы приехали в бутово",
       description: "Вы обнаружили плага, и забрали деньги обратно!",
       isEnd: true,
+      maxChoices: 0,
       choices: [],
     },
     {
@@ -47,6 +49,7 @@ export const storyEditorSlice: StateCreator<
       title: "Вы приехали в митино",
       description: "Вы никого не нашли, он улетел на самолете в другую страну!",
       isEnd: true,
+      maxChoices: 0,
       choices: [],
     },
   ],
@@ -69,6 +72,7 @@ export const storyEditorSlice: StateCreator<
           description: "",
           image: "",
           isEnd: false,
+          maxChoices: 0,
           choices: [{ id: 1, text: "", nextScene: 0, access: true }],
         },
       ],
@@ -90,6 +94,13 @@ export const storyEditorSlice: StateCreator<
     set({
       scenes: get().scenes.map((scene) =>
         scene.id === sceneId ? { ...scene, description } : scene
+      ),
+    }),
+
+  setSceneMaxChoices: (sceneId, maxChoices) =>
+    set({
+      scenes: get().scenes.map((scene) =>
+        scene.id === sceneId ? { ...scene, maxChoices } : scene
       ),
     }),
 
