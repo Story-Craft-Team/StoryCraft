@@ -3,13 +3,18 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from './modules/prisma/prisma.module';
 import { UsersModule } from './modules/users/users.module';
-import { StoriesModule } from './modules/stories/stories.module';
 import { HelpersModule } from './modules/helpers/helpers.module';
-import { ScenesModule } from './modules/scenes/scenes.module';
-import { ChoicesModule } from './modules/choices/choices.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { BcryptModule } from './modules/bcrypt/bcrypt.module';
 
 @Module({
-  imports: [PrismaModule, UsersModule, StoriesModule, HelpersModule, ScenesModule, ChoicesModule],
+  imports: [
+    PrismaModule,
+    UsersModule,
+    HelpersModule,
+    AuthModule,
+    BcryptModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

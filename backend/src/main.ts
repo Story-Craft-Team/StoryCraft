@@ -12,6 +12,7 @@ function createSwaggerConfig() {
     .setTitle('Story Craft API') // Set API title
     .setDescription('Documentation for Story Craft API') // Set API description
     .setVersion('1.0') // Set API version
+    .addBearerAuth()
     .build();
 }
 
@@ -22,15 +23,19 @@ async function bootstrap() {
 
     // Create and configure Swagger
     const swaggerConfig = createSwaggerConfig();
-    const document = SwaggerModule.createDocument(app, swaggerConfig); // Generate Swagger documentation
+    const document = SwaggerModule.createDocument(app, swaggerConfig, {
+      extraModels: [], // Add any extra models here if needed
+      deepScanRoutes: true,
+      ignoreGlobalPrefix: true,
+    });
 
     // Setup Swagger UI at /api-docs path
     SwaggerModule.setup('api-docs', app, document);
 
     // Start the app and listen on the specified port (defaults to 3001)
     const port = process.env.PORT ?? 3001;
-    await app.listen(port, () => {
-      console.log(`App is running on http://localhost:${port}`);
+    await app.listen(port, '0.0.0.0', () => {
+      console.log(`App is running on http://0.0.0.0:${port}`);
     });
   } catch (error) {
     console.error('Error during application startup', error); // Log any error during app startup

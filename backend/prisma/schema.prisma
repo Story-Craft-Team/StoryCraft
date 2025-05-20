@@ -22,17 +22,17 @@ model User {
   stories         Story[]       @relation("UserStories")
   settings        UserSettings?
   favoriteStories Story[]       @relation("UserFavoriteStories")
-  followedUsers    Follow[] @relation("UserFollowing")
-  followingUsers    Follow[] @relation("UserFollowed")
+  followedUsers   Follow[]      @relation("UserFollowing")
+  followingUsers  Follow[]      @relation("UserFollowed")
 }
 
 model Follow {
-  id           Int    @id @default(autoincrement())
-  followerId   Int
-  followingId  Int
+  id          Int @id @default(autoincrement())
+  followerId  Int
+  followingId Int
 
-  followedUser     User   @relation("UserFollowed", fields: [followerId], references: [id])
-  followingUser    User   @relation("UserFollowing", fields: [followingId], references: [id])
+  followedUser  User @relation("UserFollowed", fields: [followerId], references: [id], onDelete: Cascade)
+  followingUser User @relation("UserFollowing", fields: [followingId], references: [id], onDelete: Cascade)
 
   @@unique([followerId, followingId])
 }
@@ -40,13 +40,14 @@ model Follow {
 model Story {
   id           Int      @id @default(autoincrement())
   title        String
+  description  String
   authorId     Int      @unique
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   isPublic     Boolean  @default(false)
   choices      Choice[]
   scenes       Scene[]
-  author       User     @relation("UserStories", fields: [authorId], references: [id])
+  author       User     @relation("UserStories", fields: [authorId], references: [id], onDelete: Cascade)
   isFavoriteBy User[]   @relation("UserFavoriteStories")
 }
 
@@ -58,7 +59,7 @@ model Scene {
   storyId     Int
   description String
   choices     Choice[]
-  Story       Story    @relation(fields: [storyId], references: [id])
+  Story       Story    @relation(fields: [storyId], references: [id], onDelete: Cascade)
 }
 
 model Choice {
@@ -68,15 +69,15 @@ model Choice {
   access    Boolean @default(true)
   sceneId   Int?
   storyId   Int
-  Scene     Scene?  @relation(fields: [sceneId], references: [id])
-  Story     Story   @relation(fields: [storyId], references: [id])
+  Scene     Scene?  @relation(fields: [sceneId], references: [id], onDelete: Cascade)
+  Story     Story   @relation(fields: [storyId], references: [id], onDelete: Cascade)
 }
 
 model UserSettings {
   theme    String @default("dark")
   language String @default("en")
   userId   Int    @unique
-    user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum Role {

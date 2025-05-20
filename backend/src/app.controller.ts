@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import { HealthRes } from './shared/types';
+import { HealthRes } from './common/types';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'; // Import Swagger decorators
 
 @ApiTags('Default') // Grouping the endpoints by the 'Health' tag

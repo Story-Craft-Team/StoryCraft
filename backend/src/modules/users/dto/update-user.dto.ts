@@ -1,46 +1,59 @@
-import { UserSettings } from '@prisma/client';
-import { CreateUserDto } from './create-user.dto';
-import { ApiProperty, ApiTags, PartialType } from '@nestjs/swagger';
-import { IsArray, IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
+import { ApiProperty, ApiTags } from '@nestjs/swagger';
+import {
+  IsBoolean,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
+import { UserSettingsDto } from './user-settings.dto';
 
 @ApiTags('Users')
-export class UpdateUserDto extends PartialType(CreateUserDto) {
+export class UpdateUserDto {
+  @ApiProperty({ type: () => Number, example: 1 })
   @IsNumber()
   id?: number;
 
-  @ApiProperty({ example: false })
+  @ApiProperty({ type: () => String, example: 'jumper' })
+  @IsString()
+  @IsOptional()
+  username?: string;
+
+  @ApiProperty({ type: () => String, example: 'strongPassword123456' })
+  @IsString()
+  @IsOptional()
+  password?: string;
+
+  @ApiProperty({ type: () => String, example: 'john.doe1@example.com' })
+  @IsString()
+  @IsOptional()
+  email?: string;
+
+  @ApiProperty({ type: () => String, example: 'moderator' })
+  @IsString()
+  @IsOptional()
+  role?: 'admin' | 'moderator' | 'reader';
+
+  @ApiProperty({ type: () => String, example: 'John Doe' })
+  @IsString()
+  @IsOptional()
+  displayName?: string;
+
+  @ApiProperty({ type: () => Boolean, example: true })
   @IsBoolean()
+  @IsOptional()
   isVerified?: boolean;
 
-  @ApiProperty({ example: 'This is my bio' })
+  @ApiProperty({ type: () => String, example: 'This is my bio' })
   @IsString()
+  @IsOptional()
   bio?: string;
 
-  @IsArray()
-  @IsNumber({}, { each: true })
-  @IsOptional()
-  followedUsers?: number[];
-
-  @IsArray()
-  @IsNumber({}, { each: true })
-  @IsOptional()
-  followingUsers?: number[];
-
-  @IsArray()
-  @IsNumber({}, { each: true })
-  @IsOptional()
-  favoriteStories?: number[];
-
-  @IsArray()
-  @IsNumber({}, { each: true })
-  @IsOptional()
-  stories?: number[];
-
   @ApiProperty({
+    type: () => UserSettingsDto,
     example: {
       theme: 'light',
       language: 'en',
     },
   })
-  settings?: UserSettings;
+  settings?: UserSettingsDto;
 }
