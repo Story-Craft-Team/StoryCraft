@@ -1,4 +1,5 @@
 "use client";
+import { Scene } from "@/features";
 import { useStore } from "@/shared/store";
 
 export default function StoryEditor() {
@@ -8,6 +9,8 @@ export default function StoryEditor() {
   const setDescription = useStore((state) => state.setDescription);
   const scenes = useStore((state) => state.scenes);
   const setSceneTitle = useStore((state) => state.setSceneTitle);
+  const setSceneDescription = useStore((state) => state.setSceneDescription);
+
   const addNewScene = useStore((state) => state.addNewScene);
   const setChoiceText = useStore((state) => state.setChoiceText);
   const setChoiceNextScene = useStore((state) => state.setChoiceNextScene);
@@ -17,7 +20,7 @@ export default function StoryEditor() {
   const isPublic = useStore((state) => state.isPublic);
 
   return (
-    <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "2rem" }}>
+    <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "1rem" }}>
       <h1 style={{ fontSize: "1.8rem", marginBottom: "1rem" }}>
         Редактор истории
       </h1>
@@ -40,12 +43,18 @@ export default function StoryEditor() {
             style={{
               display: "flex",
               alignItems: "center",
-              gap: "1rem",
               marginBottom: "1rem",
             }}
           >
-            <span style={{ fontWeight: "bold", minWidth: "3rem" }}>
-              ID: {scene.id}
+            <span
+              style={{
+                fontWeight: "bold",
+                minWidth: "0rem",
+                paddingRight: "1rem",
+                paddingLeft: ".1rem",
+              }}
+            >
+              {scene.id}
             </span>
             <input
               type="text"
@@ -61,84 +70,146 @@ export default function StoryEditor() {
               }}
             />
           </div>
-
+          <textarea
+            value={scene.description}
+            onChange={(e) => setSceneDescription(scene.id, e.target.value)}
+            placeholder="Описание сцены"
+            style={{
+              width: "97.8%",
+              minHeight: "80px",
+              padding: "0.5rem",
+              fontSize: "1rem",
+              border: "1px solid #ccc",
+              borderRadius: ".3rem",
+              resize: "vertical",
+              lineHeight: "1.4",
+              background: "white",
+              color: "#333",
+              marginBottom: "1rem",
+              marginLeft: "1.6rem",
+            }}
+          />
+          <span>тест гита</span>
           {/* Список выборов */}
           {scene.choices.map((choice) => (
             <div
               key={choice.id}
               style={{
                 display: "flex",
-                alignItems: "center",
+                flexDirection: "column",
                 gap: "0.5rem",
-                marginBottom: "0.5rem",
+                marginBottom: "1rem",
+                borderRadius: "6px",
               }}
             >
-              <input
-                type="text"
-                value={choice.text}
-                onChange={(e) =>
-                  setChoiceText(scene.id, choice.id, e.target.value)
-                }
-                placeholder={`Выбор ${choice.id}`}
+              {/* Выбор ID + текст */}
+              <div
                 style={{
-                  flex: 1,
-                  padding: "0.4rem",
-                  border: "1px solid #ccc",
-                  borderRadius: "4px",
-                }}
-              />
-              <select
-                value={choice.nextScene}
-                onChange={(e) =>
-                  setChoiceNextScene(
-                    scene.id,
-                    choice.id,
-                    Number(e.target.value)
-                  )
-                }
-                style={{
-                  padding: "0.4rem",
-                  border: "1px solid #ccc",
-                  borderRadius: "4px",
-                  minWidth: "160px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.5rem",
                 }}
               >
-                <option value={0}>Выберите сцену
-                </option>
-                  {scenes.filter((s)=> s.id !== scene.id).map((s) => (
-                    <option key={s.id} value={s.id}>
-                      {s.title || `Сцена ${s.id}`}
-                    </option>
-                  ))}
-              </select>
-              <label
-                style={{ display: "flex", alignItems: "center", gap: "0.3rem" }}
-              >
+                <span style={{ fontWeight: "bold", minWidth: "1.1rem" }}>
+                  {choice.id}
+                </span>
                 <input
-                  type="checkbox"
-                  checked={choice.access}
+                  type="text"
+                  value={choice.text}
                   onChange={(e) =>
-                    setChoiceAccess(scene.id, choice.id, e.target.checked)
+                    setChoiceText(scene.id, choice.id, e.target.value)
                   }
+                  placeholder={`Текст выбора`}
+                  style={{
+                    flex: 1,
+                    padding: "0.4rem",
+                    fontSize: "1rem",
+                    border: "1px solid #ccc",
+                    borderRadius: "4px",
+                  }}
                 />
-                Доступен
-              </label>
+              </div>
+
+              {/* Управление переходами и доступом */}
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                  gap: "1rem",
+                  marginLeft: "1.6rem",
+                }}
+              >
+                <select
+                  value={choice.nextScene}
+                  onChange={(e) =>
+                    setChoiceNextScene(
+                      scene.id,
+                      choice.id,
+                      Number(e.target.value)
+                    )
+                  }
+                  style={{
+                    padding: "0.4rem",
+                    fontSize: "1rem",
+                    border: "1px solid #ccc",
+                    borderRadius: "4px",
+                    minWidth: "20rem",
+                    cursor: "pointer",
+                  }}
+                >
+                  <option style={{ cursor: "pointer" }} value={0}>
+                    Выберите следующую сцену
+                  </option>
+                  {scenes
+                    .filter((s) => s.id !== scene.id)
+                    .map((s) => (
+                      <option
+                        style={{ cursor: "pointer" }}
+                        key={s.id}
+                        value={s.id}
+                      >
+                        {s.title || `Сцена ${s.id}`}
+                      </option>
+                    ))}
+                </select>
+
+                <label
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.4rem",
+                    fontSize: "0.95rem",
+                  }}
+                >
+                  <input
+                    type="checkbox"
+                    checked={choice.access}
+                    onChange={(e) =>
+                      setChoiceAccess(scene.id, choice.id, e.target.checked)
+                    }
+                  />
+                  Доступ
+                </label>
+              </div>
             </div>
           ))}
-
-          <button
-            onClick={() => addNewChoice(scene.id)}
-            style={{
-              marginTop: "0.5rem",
-              background: "#eee",
-              border: "none",
-              padding: "0.4rem 0.8rem",
-              borderRadius: "4px",
-              cursor: "pointer",
-            }}
-          >
-            + Добавить выбор
-          </button>
+          {/* TODO сделать ограничения динамическое ограничение в зависимости от кол-ва выборов в начале */}
+          {scene.choices.length < 6 && (
+            <button
+              onClick={() => addNewChoice(scene.id)}
+              style={{
+                marginTop: "0.5rem",
+                background: "#eee",
+                border: "none",
+                padding: "0.4rem 0.8rem",
+                borderRadius: "4px",
+                cursor: "pointer",
+              }}
+            >
+              + Добавить выбор
+            </button>
+          )}
         </div>
       ))}
 

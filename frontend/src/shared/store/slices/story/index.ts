@@ -10,7 +10,7 @@ export const storyEditorSlice: StateCreator<
   title: "Плаг",
   author: "lovecult",
   authorId: "123123",
-  description: "Вас обнанули, и вы ищете плага",
+  description: "Вас обманули на вес, вы ищете плага",
   image: "",
   isPublic: false,
   scenes: [
@@ -18,17 +18,17 @@ export const storyEditorSlice: StateCreator<
       id: 1,
       title: "Вы выезжаете с братом искать плага",
       description:
-        "Вы оказываетесь в раздумьях куда поезхать. Куда выберите поехать?",
+        "Вы оказываетесь в раздумьях куда поехать. Куда выберите поехать?",
       isEnd: false,
       choices: [
         {
-          id: 0,
+          id: 1,
           text: "В бутово",
           nextScene: 1001,
           access: true,
         },
         {
-          id: 1,
+          id: 2,
           text: "В митино",
           nextScene: 1002,
           access: true,
@@ -38,16 +38,14 @@ export const storyEditorSlice: StateCreator<
     {
       id: 2,
       title: "Вы приехали в бутово",
-      description:
-        "Вы обнаружили плага, и забрали деньги обратно!",
+      description: "Вы обнаружили плага, и забрали деньги обратно!",
       isEnd: true,
       choices: [],
     },
     {
       id: 3,
       title: "Вы приехали в митино",
-      description:
-        "Вы никого не нашли, он улетел на самолете в другую страну!",
+      description: "Вы никого не нашли, он улетел на самолете в другую страну!",
       isEnd: true,
       choices: [],
     },
@@ -60,7 +58,6 @@ export const storyEditorSlice: StateCreator<
   setImage: (image) => set({ image }),
   setIsPublic: (isPublic) => set({ isPublic }),
   setScenes: (scenes) => set({ scenes }),
-  
 
   addNewScene: () =>
     set({

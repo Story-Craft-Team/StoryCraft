@@ -12,7 +12,7 @@ export default function EditorPage() {
   const setSceneTitle = useStore((state) => state.setSceneTitle);
   const addNewScene = useStore((state) => state.addNewScene);
 
-  const sceneCount = scenes.length + 15; // убрать потом 15
+  const sceneCount = scenes.length; // убрать потом 15
 
   return (
     <>

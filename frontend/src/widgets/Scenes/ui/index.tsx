@@ -20,6 +20,7 @@ export default function Scenes() {
 			<button onClick={addSceneSubmit} className={s.add_scene}>
 				Add Scene
 			</button>
+			
 		</div>
 	); // Later need to get an ID from the store
 }
