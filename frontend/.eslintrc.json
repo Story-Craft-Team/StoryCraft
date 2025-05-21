@@ -19,7 +19,12 @@
         "patterns": [
           "../*",
           "../../*",
-          "../../../*"
+          "../../../*",
+          "features/*",
+          "pages/*",
+          "widgets/*",
+          "entities/*",
+          "app/*"
         ],
         "paths": [
           {
@@ -29,6 +34,10 @@
           {
             "name": "./widgets/*/Header/Ui/*",
             "message": "Импорт из Header/Ui запрещён. Используйте только публичные интерфейсы Header."
+          },
+          {
+            "name": "./widgets/*/Header/ui/Header.module.scss",
+            "message": "Импорт из Header.module.scss запрещён."
           }
         ]
       }
