@@ -16,14 +16,20 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: JwtPayload): Promise<User> {
-    const user = await this.prisma.user.findUnique({
-      where: { id: payload.sub },
-    });
-  
-    if (!user) {
-      throw new UnauthorizedException('User not found');
+    try {
+      const userId = payload.sub || payload.id;
+      if (!userId) {
+        throw new UnauthorizedException('Invalid token');
+      }
+      const user = await this.prisma.user.findUnique({
+        where: { id: userId },
+      });
+      if (!user) {
+        throw new UnauthorizedException('User not found');
+      }
+      return user;
+    } catch (error) {
+      throw new UnauthorizedException('Invalid token');
     }
-  
-    return user;
   }
 }

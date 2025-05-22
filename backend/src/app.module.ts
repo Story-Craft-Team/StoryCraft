@@ -6,6 +6,7 @@ import { UsersModule } from './modules/users/users.module';
 import { HelpersModule } from './modules/helpers/helpers.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { BcryptModule } from './modules/bcrypt/bcrypt.module';
+import { StoriesModule } from './modules/stories/stories.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { BcryptModule } from './modules/bcrypt/bcrypt.module';
     HelpersModule,
     AuthModule,
     BcryptModule,
+    StoriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

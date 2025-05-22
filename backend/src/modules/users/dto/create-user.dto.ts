@@ -1,5 +1,6 @@
 import {
   IsEmail,
+  IsNotEmpty,
   IsOptional,
   IsString,
   IsUrl,
@@ -19,6 +20,7 @@ export class CreateUserDto {
     example: 'john_doe',
   })
   @IsString()
+  @IsNotEmpty()
   @MaxLength(30)
   @MinLength(3)
   username: string;
@@ -29,6 +31,7 @@ export class CreateUserDto {
     example: 'john.doe@example.com',
   })
   @IsEmail()
+  @IsNotEmpty()
   email: string;
 
   @ApiProperty({
@@ -37,6 +40,7 @@ export class CreateUserDto {
     example: 'strongPassword123',
   })
   @IsString()
+  @IsNotEmpty()
   password: string;
 
   @ApiProperty({

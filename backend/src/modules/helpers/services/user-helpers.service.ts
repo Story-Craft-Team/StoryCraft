@@ -1,10 +1,17 @@
-import { Injectable } from "@nestjs/common";
-import { User } from "@prisma/client";
+import { Injectable } from '@nestjs/common';
+import { User } from '@prisma/client';
+
+export type UserWithoutPassword = Omit<User, 'password'>;
 
 @Injectable()
 export class UserHelperService {
-  excludePassword(user: User): Omit<User, 'password'> {
-    const { password, ...rest } = user as any;
+  excludePassword(
+    user: User | User[],
+  ): UserWithoutPassword | UserWithoutPassword[] {
+    if (Array.isArray(user)) {
+      return user.map(({ password, ...rest }) => rest);
+    }
+    const { password, ...rest } = user;
     return rest;
   }
 }

@@ -28,10 +28,4 @@ export class HelpersService {
       );
     }
   }
-
-  createSetRelation = (
-    ids?: number[],
-  ) => ids?.length
-    ? { set: ids?.map((id) => ({ id })) }
-    : undefined;
 }
