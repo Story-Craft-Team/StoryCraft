@@ -1,17 +1,18 @@
-import {
-  Injectable,
-  NotFoundException,
-  BadRequestException,
-  ConflictException,
-} from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from 'src/modules/prisma/prisma.service';
-import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { Prisma, User } from '@prisma/client';
 import { HelpersService } from 'src/modules/helpers/services/helpers.service';
 import { BcryptService } from 'src/modules/bcrypt/services/bcrypt.service';
 import { UserHelperService } from 'src/modules/helpers/services/user-helpers.service';
 import { USER_INCLUDE } from 'src/common/constants';
+import {
+  DeleteResponse,
+  UpdateResponse,
+  FindOneResponse,
+  FindAllResponse,
+} from '../responses/user-crud.response';
+import { UserWithoutPassword } from 'src/modules/helpers/services/user-helpers.service';
 
 @Injectable()
 export class UserCrudService {
@@ -26,11 +27,15 @@ export class UserCrudService {
    * Find all users
    * @returns An array of users
    */
-  async findAll(): Promise<Omit<User, 'password'>[]> {
-    const users = await this.prisma.user.findMany({
-      include: USER_INCLUDE,
-    });
-    return users.map((u) => this.userHelper.excludePassword(u));
+  async findAll(): Promise<FindAllResponse> {
+    try {
+      const users = await this.prisma.user.findMany({
+        include: USER_INCLUDE,
+      });
+      return { users: users.map((u) => this.userHelper.excludePassword(u)) as UserWithoutPassword[] };
+    } catch (error) {
+      throw error;
+    }
   }
 
   /**
@@ -38,9 +43,13 @@ export class UserCrudService {
    * @param id - The ID of the user to find
    * @returns The user
    */
-  async findOne(id: number): Promise<Omit<User, 'password'>> {
-    const user = await this.helpers.getIdOrThrow<User>('user', id, 'User');
-    return this.userHelper.excludePassword(user);
+  async findOne(id: number): Promise<FindOneResponse> {
+    try {
+      const user = await this.helpers.getIdOrThrow<User>('user', id, 'User');
+      return { user: this.userHelper.excludePassword(user) as UserWithoutPassword };
+    } catch (error) {
+      throw error;
+    }
   }
 
   /**
@@ -49,19 +58,13 @@ export class UserCrudService {
    * @param dto - The update data
    * @returns The updated user
    */
-  async update(
-    id: number,
-    dto: UpdateUserDto,
-  ): Promise<Omit<User, 'password'>> {
-    await this.helpers.getIdOrThrow<User>('user', id, 'User');
+  async update(id: number, dto: UpdateUserDto): Promise<UpdateResponse> {
+    try {
+      await this.helpers.getIdOrThrow<User>('user', id, 'User');
 
-    const {
-      settings,
-      password,
-      ...rest
-    } = dto;
+      const { settings, password, ...rest } = dto;
 
-    const data: Prisma.UserUncheckedUpdateInput = {
+      const data: Prisma.UserUncheckedUpdateInput = {
       ...rest,
       settings: settings && {
         upsert: {
@@ -86,18 +89,22 @@ export class UserCrudService {
       include: USER_INCLUDE,
     });
 
-    return this.userHelper.excludePassword(updatedUser);
+    return { user: this.userHelper.excludePassword(updatedUser) as UserWithoutPassword };
+    } catch (error) {
+      throw error;
+    }
   }
 
   /**
    * Remove a user by ID
    * @param id - The ID of the user to remove
-   * @returns void
+   * @returns {status: number, message: string}
    */
-  async remove(id: number): Promise<void> {
+  async remove(id: number): Promise<DeleteResponse> {
     try {
       await this.helpers.getIdOrThrow<User>('user', id, 'User');
       await this.prisma.user.delete({ where: { id } });
+      return { status: 200, message: 'User removed successfully' };
     } catch (error) {
       throw new BadRequestException('Error removing user: ' + error.message);
     }

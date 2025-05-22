@@ -17,7 +17,6 @@ export class AuthService {
     return this.jwtService.signAsync(payload);
   }
   
-
   async generateRefreshToken(user: JwtPayload): Promise<string> {
     const payload = {
       id: user.id,
@@ -30,7 +29,6 @@ export class AuthService {
     });
   }
   
-
   async verifyToken(token: string) {
     return this.jwtService.verifyAsync(token);
   }

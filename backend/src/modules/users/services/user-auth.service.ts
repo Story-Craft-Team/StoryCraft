@@ -9,7 +9,7 @@ import { CreateUserDto } from '../dto/create-user.dto';
 import { User } from '@prisma/client';
 import { BcryptService } from 'src/modules/bcrypt/services/bcrypt.service';
 import { AuthService } from 'src/modules/auth/services/auth.service';
-import { UserHelperService } from 'src/modules/helpers/services/user-helpers.service';
+import { UserHelperService, UserWithoutPassword } from 'src/modules/helpers/services/user-helpers.service';
 import { USER_INCLUDE } from 'src/common/constants';
 import { LoginUserDto } from '../dto/login-user.dto';
 
@@ -27,40 +27,48 @@ export class UserAuthService {
    * @param dto - The user data
    * @returns The registered user
    */
-  async register(dto: CreateUserDto): Promise<{ accessToken: string; user: Omit<User, 'password'> }> {
-    const existingUser = await this.prisma.user.findFirst({
-      where: {
-        OR: [{ email: dto.email }, { username: dto.username }],
-      },
-    });
+  async register(
+    dto: CreateUserDto,
+  ): Promise<{ accessToken: string; user: Omit<User, 'password'> }> {
+    try {
+      const existingUser = await this.prisma.user.findFirst({
+        where: {
+          OR: [{ email: dto.email }, { username: dto.username }],
+        },
+      });
 
-    if (existingUser) {
-      throw new ConflictException('Username or email already exists');
-    }
+      if (existingUser) {
+        throw new ConflictException('Username or email already exists');
+      }
 
-    if (!dto.password) {
-      throw new BadRequestException('Password is required');
-    }
+      if (!dto.password) {
+        throw new BadRequestException('Password is required');
+      }
 
-    const hashedPassword = await this.bcryptService.hashPassword(dto.password);
+      const hashedPassword = await this.bcryptService.hashPassword(
+        dto.password,
+      );
 
-    const settings = dto.settings ?? {
-      theme: 'dark',
-      language: 'ru',
-    };
+      const settings = dto.settings ?? {
+        theme: 'dark',
+        language: 'ru',
+      };
 
-    const createdUser = await this.prisma.user.create({
-      data: {
-        ...dto,
-        password: hashedPassword,
-        settings: { create: settings },
-      },
-      include: USER_INCLUDE,
-    });
+      const createdUser = await this.prisma.user.create({
+        data: {
+          ...dto,
+          password: hashedPassword,
+          settings: { create: settings },
+        },
+        include: USER_INCLUDE,
+      });
 
-    return {
-      accessToken: await this.authService.generateToken(createdUser),
-      user: this.userHelpers.excludePassword(createdUser),
+      return {
+        accessToken: await this.authService.generateToken(createdUser),
+        user: this.userHelpers.excludePassword(createdUser) as UserWithoutPassword,
+      };
+    } catch (error) {
+      throw error;
     }
   }
 
@@ -71,27 +79,31 @@ export class UserAuthService {
    */
   async login(
     loginUserDto: LoginUserDto,
-  ): Promise<{ accessToken: string; user: Omit<User, 'password'> }> {
-    const user = await this.prisma.user.findUnique({
-      where: { email: loginUserDto.email, username: loginUserDto.username },
-    });
-    if (!user) {
-      throw new NotFoundException('User with this email not found');
+  ): Promise<{ accessToken: string; user: UserWithoutPassword }> {
+    try {
+      const user = await this.prisma.user.findUnique({
+        where: { email: loginUserDto.email, username: loginUserDto.username },
+      });
+      if (!user) {
+        throw new NotFoundException('User with this email not found');
+      }
+
+      const passwordValid = await this.bcryptService.comparePasswords(
+        loginUserDto.password,
+        user.password,
+      );
+      if (!passwordValid) {
+        throw new BadRequestException('Invalid password');
+      }
+
+      const accessToken = await this.authService.generateToken(user);
+
+      return {
+        accessToken,
+        user: this.userHelpers.excludePassword(user) as UserWithoutPassword,
+      };
+    } catch (error) {
+      throw error;
     }
-
-    const passwordValid = await this.bcryptService.comparePasswords(
-      loginUserDto.password,
-      user.password,
-    );
-    if (!passwordValid) {
-      throw new BadRequestException('Invalid password');
-    }
-
-    const accessToken = await this.authService.generateToken(user);
-
-    return {
-      accessToken,
-      user: this.userHelpers.excludePassword(user),
-    };
   }
 }

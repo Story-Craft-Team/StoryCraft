@@ -11,6 +11,7 @@ import { Param, Post, Delete, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Controller } from '@nestjs/common';
 import { AuthRequest } from 'src/common/types';
+import { UserFollowResponse } from '../responses/user-follows.controller';
 
 @ApiTags('User Follows')
 @Controller('users/follows')
@@ -37,8 +38,9 @@ export class UserFollowsController {
   @ApiOperation({ summary: 'Follow a user' })
   @ApiParam({ name: 'followerId', type: 'string', description: 'Follower ID' })
   @ApiResponse({
-    status: 200,
+    status: 201,
     description: 'User has been successfully followed.',
+    type: UserFollowResponse,
   })
   @ApiResponse({ status: 404, description: 'User or follower not found' })
   follow(@Request() req: AuthRequest, @Param('followerId') followerId: string) {

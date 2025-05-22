@@ -9,6 +9,12 @@ import { Controller } from '@nestjs/common';
 import { RolesGuard } from 'src/common/guards/roles.guard';
 import { Roles } from 'src/modules/auth/decorators/roles.decorator';
 import { Role } from '@prisma/client';
+import {
+  DeleteResponse,
+  UpdateResponse,
+  FindOneResponse,
+  FindAllResponse,
+} from '../responses/user-crud.response';
 
 @ApiTags('User')
 @Controller('users')
@@ -20,6 +26,7 @@ export class UserCrudController {
   @ApiResponse({
     status: 200,
     description: 'Returns a list of users',
+    type: FindAllResponse,
   })
   @ApiResponse({ status: 400, description: 'Bad request' })
   @ApiResponse({
@@ -37,6 +44,7 @@ export class UserCrudController {
   @ApiResponse({
     status: 200,
     description: 'Returns a user based on the provided ID',
+    type: FindOneResponse,
   })
   @ApiResponse({ status: 400, description: 'Bad request' })
   @ApiResponse({
@@ -58,12 +66,16 @@ export class UserCrudController {
   @ApiResponse({
     status: 200,
     description: 'User has been successfully updated.',
+    type: UpdateResponse,
   })
   @ApiResponse({
     status: 404,
     description: 'User not found',
   })
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ): Promise<UpdateResponse> {
     return this.userCrudService.update(+id, updateUserDto);
   }
 
@@ -77,14 +89,13 @@ export class UserCrudController {
   @ApiResponse({
     status: 200,
     description: 'User has been successfully deleted.',
+    type: DeleteResponse,
   })
   @ApiResponse({
     status: 404,
     description: 'User not found',
   })
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: string): Promise<DeleteResponse> {
     return this.userCrudService.remove(+id);
   }
-
-  
 }
