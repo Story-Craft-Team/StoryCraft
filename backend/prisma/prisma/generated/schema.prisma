@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./prisma/generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              Int           @id @default(autoincrement())
+  username        String        @unique
+  email           String        @unique
+  role            Role          @default(reader)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  isVerified      Boolean       @default(false)
+  displayName     String?
+  bio             String?
+  avatarUrl       String?
+  password        String
+  stories         Story[]       @relation("UserStories")
+  settings        UserSettings?
+  favoriteStories Story[]       @relation("UserFavoriteStories")
+  followedUsers   Follow[]      @relation("UserFollowing")
+  followingUsers  Follow[]      @relation("UserFollowed")
+}
+
+model Follow {
+  id          Int @id @default(autoincrement())
+  followerId  Int
+  followingId Int
+
+  followedUser  User @relation("UserFollowed", fields: [followerId], references: [id], onDelete: Cascade)
+  followingUser User @relation("UserFollowing", fields: [followingId], references: [id], onDelete: Cascade)
+
+  @@unique([followerId, followingId])
+}
+
+model Story {
+  id           Int      @id @default(autoincrement())
+  title        String
+  description  String?
+  image        String?
+  authorId     Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  isPublic     Boolean  @default(false)
+  choices      Choice[]
+  scenes       Scene[]
+  author       User     @relation("UserStories", fields: [authorId], references: [id], onDelete: Cascade)
+  isFavoriteBy User[]   @relation("UserFavoriteStories")
+}
+
+model Scene {
+  id          Int      @id @default(autoincrement())
+  title       String
+  image       String?
+  isEnd       Boolean  @default(false)
+  storyId     Int
+  description String
+  choices     Choice[]
+  maxChoices  Int      @default(1)
+  Story       Story    @relation(fields: [storyId], references: [id], onDelete: Cascade)
+}
+
+model Choice {
+  id        Int     @id @default(autoincrement())
+  text      String
+  nextScene Int
+  access    Boolean @default(true)
+  sceneId   Int?
+  storyId   Int
+  Scene     Scene?  @relation(fields: [sceneId], references: [id], onDelete: Cascade)
+  Story     Story   @relation(fields: [storyId], references: [id], onDelete: Cascade)
+}
+
+model UserSettings {
+  theme    String @default("dark")
+  language String @default("en")
+  userId   Int    @unique
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum Role {
+  admin
+  moderator
+  reader
+}
