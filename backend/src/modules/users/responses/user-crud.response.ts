@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '@prisma/client';
+import { UserWithoutPassword } from 'src/modules/helpers/services/user-helpers.service';
 
 export class DeleteResponse {
   @ApiProperty({
@@ -32,7 +33,7 @@ export class UpdateResponse {
       },
     },
   })
-  user: Omit<User, 'password'>;
+  user: UserWithoutPassword;
 }
 
 export class FindOneResponse {
@@ -52,7 +53,7 @@ export class FindOneResponse {
       },
     },
   })
-  user: Omit<User, 'password'>;
+  user: UserWithoutPassword;
 }
 
 export class FindAllResponse {
@@ -87,5 +88,5 @@ export class FindAllResponse {
       },
     ],
   })
-  users: Omit<User, 'password'>[];
+  users: UserWithoutPassword[];
 }
