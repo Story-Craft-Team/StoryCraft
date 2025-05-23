@@ -1,6 +1,6 @@
 "use client";
 
-import { Modal } from "@/shared/ui/Modal";
+import { Modal } from "@/shared/ui";
 import React, { useEffect, useState } from "react";
 import s from "./MainModal.module.scss";
 import { useStore } from "@/shared/store";

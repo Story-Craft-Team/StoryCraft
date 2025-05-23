@@ -1,1 +1,1 @@
-export { default as SettingsContainer } from './ui'
+export { default } from "./ui";

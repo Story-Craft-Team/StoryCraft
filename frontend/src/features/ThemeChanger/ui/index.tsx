@@ -10,11 +10,9 @@ interface Props{
 
 export default function ThemeChanger({children} : Props){
     const settings = useStore(state => state.settings);
-    const setLanguage = useStore(state => state.setLanguage)
     const [isThemeLoaded, setIsThemeLoaded] = useState<boolean>(false);
 
     useEffect(() => {
-        setLanguage(localStorage.getItem("Language"))
         setIsThemeLoaded(true);
     }, [])
 
