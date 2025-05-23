@@ -27,6 +27,12 @@
   margin-left: 0.6rem;
 }
 
+.input:focus,
+.select:focus {
+  outline: 2px solid #ff5722; /* оранжевый */
+  outline-offset: 2px;
+}
+
 .options {
   display: flex;
   flex-wrap: wrap;

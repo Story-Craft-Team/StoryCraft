@@ -66,24 +66,24 @@ export const storyEditorSlice: StateCreator<
   setScenes: (scenes) => set({ scenes }),
 
   addNewScene: () => {
-  const nextId = get().nextSceneId;
-  set((state) => ({
-    scenes: [
-      ...state.scenes,
-      {
-        id: nextId,
-        title: "",
-        description: "",
-        image: "",
-        isEnd: false,
-        maxChoices: 0,
-        choices: [{ id: 1, text: "", nextScene: 0, access: true }],
-      },
-    ],
-    nextSceneId: nextId + 1, // увеличиваем счетчик
-  }));
-},
+    const scenes = get().scenes;
+    const nextId = Math.max(0, ...scenes.map((s) => s.id)) + 1;
 
+    set((state) => ({
+      scenes: [
+        ...state.scenes,
+        {
+          id: nextId,
+          title: "",
+          description: "",
+          image: "",
+          isEnd: false,
+          maxChoices: 0,
+          choices: [{ id: 1, text: "", nextScene: 0, access: true }],
+        },
+      ],
+    }));
+  },
 
   removeScene: (sceneId: any) =>
     set({

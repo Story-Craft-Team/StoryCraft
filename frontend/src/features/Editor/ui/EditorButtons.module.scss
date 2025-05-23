@@ -28,3 +28,10 @@
   justify-content: center;
   // gap: 0.1rem;
 }
+
+.removeButton:focus,
+.addButton:focus,
+.select:focus {
+  outline: 2px solid #ff5722; /* оранжевый */
+  outline-offset: 2px;
+}

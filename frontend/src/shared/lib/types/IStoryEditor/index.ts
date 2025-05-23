@@ -7,6 +7,5 @@ export interface IStoryEditor {
   description: string;
   image: string;
   isPublic: boolean;
-  nextSceneId: number;
   scenes: IScene[];
 }
