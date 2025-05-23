@@ -90,11 +90,15 @@ const ChoiceCard = ({ scene, choice, index }: ChoiceCardProps) => {
           <option value={0}>Выберите следующую сцену</option>
           {scenes
             .filter((s) => s.id !== scene.id)
-            .map((s, index) => (
-              <option key={s.id} value={s.id}>
-                {s.title || `Сцена ${index + 1}`}
-              </option>
-            ))}
+            .map((s) => {
+              // Получаем индекс сцены в основном массиве scenes (до фильтра)
+              const sceneIndex = scenes.findIndex((sc) => sc.id === s.id);
+              return (
+                <option key={s.id} value={s.id}>
+                  {s.title || `Сцена ${sceneIndex + 1}`}
+                </option>
+              );
+            })}
         </select>
 
         <label
