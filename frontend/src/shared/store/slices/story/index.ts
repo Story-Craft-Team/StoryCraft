@@ -98,10 +98,29 @@ export const storyEditorSlice: StateCreator<
     }),
 
   setSceneMaxChoices: (sceneId, maxChoices) =>
-    set({
-      scenes: get().scenes.map((scene) =>
-        scene.id === sceneId ? { ...scene, maxChoices } : scene
-      ),
+    set((state) => {
+      const scene = state.scenes.find((s) => s.id === sceneId);
+      if (!scene) return state;
+
+      let updatedChoices = [...scene.choices];
+
+      const withText = updatedChoices.filter((c) => c.text?.trim());
+      const withoutText = updatedChoices.filter((c) => !c.text?.trim());
+
+      if (withText.length >= maxChoices) {
+        updatedChoices = withText.slice(0, maxChoices);
+      } else {
+        updatedChoices = [
+          ...withText,
+          ...withoutText.slice(0, maxChoices - withText.length),
+        ];
+      }
+
+      return {
+        scenes: state.scenes.map((s) =>
+          s.id === sceneId ? { ...s, maxChoices, choices: updatedChoices } : s
+        ),
+      };
     }),
 
   setSceneIsEnd: (sceneId, isEnd) =>
