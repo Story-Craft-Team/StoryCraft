@@ -13,6 +13,8 @@ export const storyEditorSlice: StateCreator<
   description: "Вас обманули на вес, вы ищете плага",
   image: "",
   isPublic: false,
+  nextSceneId: 4,
+
   scenes: [
     {
       id: 1,
@@ -62,12 +64,13 @@ export const storyEditorSlice: StateCreator<
   setIsPublic: (isPublic) => set({ isPublic }),
   setScenes: (scenes) => set({ scenes }),
 
-  addNewScene: () =>
-    set({
+  addNewScene: () => {
+    const nextId = get().nextSceneId;
+    set((state) => ({
       scenes: [
-        ...get().scenes,
+        ...state.scenes,
         {
-          id: get().scenes.length + 1,
+          id: nextId,
           title: "",
           description: "",
           image: "",
@@ -76,7 +79,9 @@ export const storyEditorSlice: StateCreator<
           choices: [{ id: 1, text: "", nextScene: 0, access: true }],
         },
       ],
-    }),
+      nextSceneId: nextId + 1, // увеличиваем счетчик
+    }));
+  },
 
   removeScene: (sceneId: any) =>
     set({
