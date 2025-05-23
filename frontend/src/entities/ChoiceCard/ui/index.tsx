@@ -18,12 +18,15 @@ const colors = {
 };
 
 const ChoiceCard = ({ scene, choice, index }: ChoiceCardProps) => {
-  // const scenes = useStore((state) => state.scenes);
-  // const setChoiceText = useStore((state) => state.setChoiceText);
-  // const setChoiceNextScene = useStore((state) => state.setChoiceNextScene);
-  // const setChoiceAccess = useStore((state) => state.setChoiceAccess);
-  const { scenes, setChoiceText, setChoiceNextScene, setChoiceAccess } =
-    useStore();
+  const scenes = useStore((state) => state.scenes);
+  const setChoiceText = useStore((state) => state.setChoiceText);
+  const setChoiceNextScene = useStore((state) => state.setChoiceNextScene);
+  const setChoiceAccess = useStore((state) => state.setChoiceAccess);
+  // Не происходит лишних перерисовок, если в состоянии изменились поля, которые этому компоненту не нужны. если изменится, например, только setChoiceText, только те компоненты, которые подписаны на это изменение, будут перерисованы.
+
+  // const { scenes, setChoiceText, setChoiceNextScene, setChoiceAccess } =
+  //   useStore();
+  // каждое изменение любого поля в useStore вызовет перерисовку компонента, даже если эти изменения не касаются непосредственно текущего компонента.
 
   return (
     <div

@@ -1,9 +1,10 @@
 "use client";
 
 import { ChoiceCard } from "@/entities/ChoiceCard";
+import { AddChoiceButton } from "@/features/Editor/ui/AddChoiceButton";
+import { RemoveSceneButton } from "@/features/Editor/ui/RemoveSceneButton";
 import { IScene } from "@/shared/lib/types";
 import { useStore } from "@/shared/store";
-import { FiX } from "react-icons/fi";
 
 interface SceneProps {
   scene: IScene;
@@ -22,12 +23,9 @@ export default function SceneCard({ scene }: SceneProps) {
   const scenes = useStore((state) => state.scenes);
   const setSceneTitle = useStore((state) => state.setSceneTitle);
   const setSceneDescription = useStore((state) => state.setSceneDescription);
-  const addNewScene = useStore((state) => state.addNewScene);
   const addNewChoice = useStore((state) => state.addNewChoice);
-  const setIsPublic = useStore((state) => state.setIsPublic);
   const setSceneMaxChoices = useStore((state) => state.setSceneMaxChoices);
   const setSceneIsEnd = useStore((state) => state.setSceneIsEnd);
-  const isPublic = useStore((state) => state.isPublic);
 
   return (
     <div
@@ -175,29 +173,16 @@ export default function SceneCard({ scene }: SceneProps) {
 
       {/* чойсы */}
       {scene.choices.map((choice, index) => (
-        <ChoiceCard scene={scene} choice={choice} index={index} key={choice.id} />
+        <ChoiceCard
+          scene={scene}
+          choice={choice}
+          index={index}
+          key={choice.id}
+        />
       ))}
 
-
-      {/*TODO  в фичи вынести  */}
       {scene.choices.length < scene.maxChoices && (
-        <button
-          onClick={() => addNewChoice(scene.id)}
-          style={{
-            marginTop: "0.5rem",
-            fontFamily: "'Nunito', sans-serif",
-            marginLeft: "1.6rem",
-            background: colors.accent,
-            border: "none",
-            color: "#fff",
-            padding: "0.4rem 0.8rem",
-            borderRadius: "4px",
-            cursor: "pointer",
-            fontWeight: "bold",
-          }}
-        >
-          + Добавить выбор
-        </button>
+        <AddChoiceButton sceneId={scene.id} />
       )}
       <div
         className=""
@@ -206,27 +191,10 @@ export default function SceneCard({ scene }: SceneProps) {
           justifyContent: "flex-end",
         }}
       >
-        <button
-          onClick={() => useStore.getState().removeScene(scene.id)}
-          style={{
-            width: "20%",
-            background: colors.accent,
-            color: "#fff",
-            fontFamily: "'Nunito', sans-serif",
-            padding: "0.4rem",
-            borderRadius: "6px",
-            border: "none",
-            fontSize: ".9rem",
-            cursor: "pointer",
-            marginTop: "1rem",
-            fontWeight: "bold",
-          }}
-          title="Удалить сцену"
-        >
-          <FiX />
-          Удалить сцену
-        </button>
+        <RemoveSceneButton sceneId={scene.id} />
       </div>
     </div>
   );
 }
+
+// TODO вынести стили
