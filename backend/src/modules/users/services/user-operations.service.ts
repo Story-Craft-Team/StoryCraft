@@ -42,8 +42,6 @@ export class UserOperationsService {
       
       const role = body.role
 
-      const role = body.role
-
       const updatedUser = await this.prisma.user.update({
         where: { id },
         data: { role },
