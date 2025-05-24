@@ -8,33 +8,22 @@ datasource db {
 }
 
 model User {
-  id              Int           @id @default(autoincrement())
-  username        String        @unique
-  email           String        @unique
-  role            Role          @default(reader)
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-  isVerified      Boolean       @default(false)
+  id              Int        @id @default(autoincrement())
+  username        String     @unique
+  email           String     @unique
+  role            Role       @default(reader)
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  isVerified      Boolean    @default(false)
   displayName     String?
   bio             String?
   avatarUrl       String?
   password        String
-  stories         Story[]       @relation("UserStories")
+  stories         Story[]    @relation("UserStories")
   settings        UserSettings?
-  favoriteStories Story[]       @relation("UserFavoriteStories")
-  followedUsers   Follow[]      @relation("UserFollowing")
-  followingUsers  Follow[]      @relation("UserFollowed")
-}
-
-model Follow {
-  id          Int @id @default(autoincrement())
-  followerId  Int
-  followingId Int
-
-  followedUser  User @relation("UserFollowed", fields: [followerId], references: [id], onDelete: Cascade)
-  followingUser User @relation("UserFollowing", fields: [followingId], references: [id], onDelete: Cascade)
-
-  @@unique([followerId, followingId])
+  followedUsers   Follow[]   @relation("UserFollowing")
+  followingUsers  Follow[]   @relation("UserFollowed")
+  likedStories    Like[]     @relation("UserLikes")
 }
 
 model Story {
@@ -49,7 +38,29 @@ model Story {
   choices      Choice[]
   scenes       Scene[]
   author       User     @relation("UserStories", fields: [authorId], references: [id], onDelete: Cascade)
-  isFavoriteBy User[]   @relation("UserFavoriteStories")
+  likedBy      Like[]   @relation("StoryLikes")
+}
+
+model Like {
+  id       Int  @id @default(autoincrement())
+  userId   Int
+  storyId  Int
+
+  user     User  @relation("UserLikes", fields: [userId], references: [id], onDelete: Cascade)
+  story    Story @relation("StoryLikes", fields: [storyId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, storyId]) // Один пользователь может лайкнуть одну историю только один раз
+}
+
+model Follow {
+  id          Int @id @default(autoincrement())
+  followerId  Int
+  followingId Int
+
+  followedUser  User @relation("UserFollowed", fields: [followerId], references: [id], onDelete: Cascade)
+  followingUser User @relation("UserFollowing", fields: [followingId], references: [id], onDelete: Cascade)
+
+  @@unique([followerId, followingId])
 }
 
 model Scene {

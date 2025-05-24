@@ -13,10 +13,18 @@ import { UserAuthController } from './controllers/user-auth.controller';
 import { UserCrudController } from './controllers/user-crud.controller';
 import { UserOperationsController } from './controllers/user-operations.controller';
 import { UserFollowsController } from './controllers/user-follows.controller';
+import { UserStoriesController } from './controllers/user-stories.controller';
+import { UserStoriesService } from './services/user-stories.service';
 
 @Module({
   imports: [HelpersModule, PrismaModule, AuthModule],
-  controllers: [UserCrudController, UserAuthController, UserFollowsController, UserOperationsController],
+  controllers: [
+    UserCrudController,
+    UserAuthController,
+    UserFollowsController,
+    UserOperationsController,
+    UserStoriesController,
+  ],
   providers: [
     PrismaService,
     UserCrudService,
@@ -25,6 +33,7 @@ import { UserFollowsController } from './controllers/user-follows.controller';
     BcryptService,
     UserAuthService,
     UserHelperService,
+    UserStoriesService,
   ],
 })
 export class UsersModule {}
