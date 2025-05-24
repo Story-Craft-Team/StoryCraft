@@ -9,21 +9,20 @@ export default function EditorPage() {
   const description = useStore((state) => state.description);
   const setDescription = useStore((state) => state.setDescription);
   const scenes = useStore((state) => state.scenes);
-  const setSceneTitle = useStore((state) => state.setSceneTitle);
-  const addNewScene = useStore((state) => state.addNewScene);
-
-  const sceneCount = scenes.length;
 
   return (
     <>
       <StoryHeader
-        onChangeTitle={setTitle}
+        editable
         title={title}
-        sceneCount={sceneCount}
+        onChangeTitle={setTitle}
+        description={description}
+        onChangeDescription={setDescription}
+        sceneCount={scenes.length}
       />
       <StoryEditor />
     </>
   );
 }
-
+//TODO пропсы убрать
 // TODO Собрать по компонентам страничку едитора

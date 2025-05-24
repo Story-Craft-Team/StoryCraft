@@ -1,5 +1,4 @@
 import { useStore } from "@/shared/store";
-import { FiX } from "react-icons/fi";
 import styles from "./EditorButtons.module.scss";
 
 export const RemoveSceneButton = ({ sceneId }: { sceneId: number }) => {

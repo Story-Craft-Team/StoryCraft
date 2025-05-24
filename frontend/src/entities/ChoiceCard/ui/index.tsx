@@ -1,9 +1,9 @@
 "use client";
 import { IChoice, IScene } from "@/shared/lib/types";
 import { useStore } from "@/shared/store";
-import styles from "./ChoiceCard.module.scss";
 import CustomCheckbox from "@/shared/ui/CustomCheckbox/ui";
 import { FaCheck } from "react-icons/fa";
+import styles from "./ChoiceCard.module.scss";
 
 interface ChoiceCardProps {
   scene: IScene;
@@ -54,9 +54,7 @@ const ChoiceCard = ({ scene, choice, index }: ChoiceCardProps) => {
           checked={choice.access}
           onChange={(checked) => setChoiceAccess(scene.id, choice.id, checked)}
           label="Доступ"
-          icon={
-           <FaCheck />
-          }
+          icon={<FaCheck />}
         />
       </div>
     </div>

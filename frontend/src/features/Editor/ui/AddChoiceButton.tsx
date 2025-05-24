@@ -3,7 +3,7 @@ import styles from "./EditorButtons.module.scss";
 
 export const AddChoiceButton = ({ sceneId }: { sceneId: number }) => {
   const addNewChoice = useStore((s) => s.addNewChoice);
-
+  //TODO деструктуризация сделай
   return (
     <button onClick={() => addNewChoice(sceneId)} className={styles.addButton}>
       + Добавить выбор

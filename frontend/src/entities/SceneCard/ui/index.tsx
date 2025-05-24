@@ -68,10 +68,17 @@ export default function SceneCard({ scene }: SceneProps) {
       </div>
 
       {scene.choices.map((choice, index) => (
-        <ChoiceCard scene={scene} choice={choice} index={index} key={choice.id} />
+        <ChoiceCard
+          scene={scene}
+          choice={choice}
+          index={index}
+          key={choice.id}
+        />
       ))}
 
-      {scene.choices.length < scene.maxChoices && <AddChoiceButton sceneId={scene.id} />}
+      {scene.choices.length < scene.maxChoices && (
+        <AddChoiceButton sceneId={scene.id} />
+      )}
 
       <div className={styles.footer}>
         <RemoveSceneButton sceneId={scene.id} />

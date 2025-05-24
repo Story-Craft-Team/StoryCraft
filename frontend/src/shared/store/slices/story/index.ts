@@ -14,7 +14,7 @@ export const storyEditorSlice: StateCreator<
   image: "",
   isPublic: false,
 
-  nextSceneId: 4,
+  nextSceneId: 4, //TODO удалить наверно
 
   scenes: [
     {
@@ -56,7 +56,7 @@ export const storyEditorSlice: StateCreator<
       choices: [],
     },
   ],
-
+// операции 
   setTitle: (title) => set({ title }),
   setAuthor: (author) => set({ author }),
   setAuthorId: (authorId) => set({ authorId }),
@@ -85,7 +85,7 @@ export const storyEditorSlice: StateCreator<
     }));
   },
 
-  removeScene: (sceneId: any) =>
+  removeScene: (sceneId) =>
     set({
       scenes: get().scenes.filter((scene) => scene.id !== sceneId),
     }),
@@ -97,7 +97,7 @@ export const storyEditorSlice: StateCreator<
       ),
     }),
 
-  setSceneDescription: (sceneId: number, description: string) =>
+  setSceneDescription: (sceneId, description) =>
     set({
       scenes: get().scenes.map((scene) =>
         scene.id === sceneId ? { ...scene, description } : scene
@@ -144,7 +144,7 @@ export const storyEditorSlice: StateCreator<
       ),
     }),
 
-  addNewChoice: (sceneId: number) =>
+  addNewChoice: (sceneId) =>
     set({
       scenes: get().scenes.map((scene) =>
         scene.id === sceneId
@@ -190,7 +190,7 @@ export const storyEditorSlice: StateCreator<
       ),
     }),
 
-  setChoiceNextScene: (sceneId, choiceId, nextSceneId) =>
+  setChoiceNextScene: (sceneId, choiceId, nextSceneId) => //TODO добавить ID в название
     set({
       scenes: get().scenes.map((scene) =>
         scene.id === sceneId
@@ -221,5 +221,5 @@ export const storyEditorSlice: StateCreator<
     }),
 
   getSceneTitle: (sceneId: number) =>
-    get().scenes.find((scene) => scene.id === sceneId)?.title || "",
+    get().scenes.find((scene) => scene.id === sceneId)?.title || "", // TODO удалить
 });

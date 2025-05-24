@@ -8,7 +8,7 @@ export default function StoryEditor() {
   const addNewScene = useStore((state) => state.addNewScene);
   const setIsPublic = useStore((state) => state.setIsPublic);
   const isPublic = useStore((state) => state.isPublic);
-  
+
   return (
     <div className={styles.container}>
       {scenes.map((scene) => (
@@ -20,12 +20,17 @@ export default function StoryEditor() {
       </button>
 
       <div className={styles.controls}>
-        <button className={`${styles.controlButton} ${styles.save}`} onClick={() => console.log("Сохранено")}>
+        <button
+          className={`${styles.controlButton} ${styles.save}`}
+          onClick={() => console.log("Сохранено")}
+        >
           Сохранить
         </button>
 
         <button
-          className={`${styles.controlButton} ${styles.publish} ${isPublic ? styles.disabled : ""}`}
+          className={`${styles.controlButton} ${styles.publish} ${
+            isPublic ? styles.disabled : ""
+          }`}
           onClick={() => setIsPublic(true)}
           disabled={isPublic}
         >
@@ -33,7 +38,9 @@ export default function StoryEditor() {
         </button>
 
         <button
-          className={`${styles.controlButton} ${styles.unpublish} ${!isPublic ? styles.disabled : ""}`}
+          className={`${styles.controlButton} ${styles.unpublish} ${
+            !isPublic ? styles.disabled : ""
+          }`}
           onClick={() => setIsPublic(false)}
           disabled={!isPublic}
         >
