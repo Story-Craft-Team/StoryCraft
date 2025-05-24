@@ -7,52 +7,13 @@ export const storyEditorSlice: StateCreator<
   [],
   StoryEditorSlice
 > = (set, get) => ({
-  title: "Плаг",
-  author: "lovecult",
-  authorId: "123123",
-  description: "Вас обманули на вес, вы ищете плага",
+  title: "",
+  author: "",
+  authorId: "",
+  description: "",
   image: "",
   isPublic: false,
-  scenes: [
-    {
-      id: 1,
-      title: "Вы выезжаете с братом искать плага",
-      description:
-        "Вы оказываетесь в раздумьях куда поехать. Куда выберите поехать?",
-      isEnd: false,
-      maxChoices: 0,
-      choices: [
-        {
-          id: 1,
-          text: "В бутово",
-          nextScene: 1001,
-          access: true,
-        },
-        {
-          id: 2,
-          text: "В митино",
-          nextScene: 1002,
-          access: true,
-        },
-      ],
-    },
-    {
-      id: 2,
-      title: "Вы приехали в бутово",
-      description: "Вы обнаружили плага, и забрали деньги обратно!",
-      isEnd: true,
-      maxChoices: 0,
-      choices: [],
-    },
-    {
-      id: 3,
-      title: "Вы приехали в митино",
-      description: "Вы никого не нашли, он улетел на самолете в другую страну!",
-      isEnd: true,
-      maxChoices: 0,
-      choices: [],
-    },
-  ],
+  scenes: [],
   // операции
   setTitle: (title) => set({ title }),
   setAuthor: (author) => set({ author }),
@@ -187,11 +148,7 @@ export const storyEditorSlice: StateCreator<
       ),
     }),
 
-  setChoiceNextSceneId: (
-    sceneId,
-    choiceId,
-    nextSceneId
-  ) =>
+  setChoiceNextSceneId: (sceneId, choiceId, nextSceneId) =>
     set({
       scenes: get().scenes.map((scene) =>
         scene.id === sceneId
