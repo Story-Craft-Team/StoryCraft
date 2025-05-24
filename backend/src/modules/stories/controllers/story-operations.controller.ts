@@ -5,10 +5,9 @@ import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
 import { StoryOperationsService } from '../services/story-operations.service';
 import { GetLengthResponse } from '../responses/story-operations.response';
-import { Story } from '@prisma/client';
 import { AuthRequest } from 'src/common/types';
 
-@ApiTags('Story Operations')
+@ApiTags('Story - operations')
 @Controller('stories/operations')
 export class StoryOperationsController {
   constructor(

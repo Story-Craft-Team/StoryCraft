@@ -9,7 +9,7 @@ import { Controller } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { RegisterResponse, LoginResponse } from '../responses/user-auth.response';
 
-@ApiTags('User auth')
+@ApiTags('User - auth')
 @Controller('users/auth')
 export class UserAuthController {
   constructor(private readonly userAuthService: UserAuthService) {}

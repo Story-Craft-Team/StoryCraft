@@ -6,14 +6,21 @@ import { StoryCrudController } from './controllers/story-crud.controller';
 import { StoryCrudService } from './services/story-crud.service';
 import { StoryOperationsController } from './controllers/story-operations.controller';
 import { StoryOperationsService } from './services/story-operations.service';
+import { StoryLikesController } from './controllers/story-likes.controller';
+import { StoryLikesService } from './services/story-likes.service';
 
 @Module({
   imports: [HelpersModule, PrismaModule],
-  controllers: [StoryCrudController, StoryOperationsController],
+  controllers: [
+    StoryCrudController,
+    StoryOperationsController,
+    StoryLikesController,
+  ],
   providers: [
     PrismaService,
     StoryCrudService,
     StoryOperationsService,
+    StoryLikesService,
   ],
 })
 export class StoriesModule {}

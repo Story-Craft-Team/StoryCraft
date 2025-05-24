@@ -16,7 +16,7 @@ import {
   FindAllResponse,
 } from '../responses/user-crud.response';
 
-@ApiTags('User')
+@ApiTags('User - crud')
 @Controller('users')
 export class UserCrudController {
   constructor(private readonly userCrudService: UserCrudService) {}
