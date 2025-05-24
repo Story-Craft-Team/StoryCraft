@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./(deffault)/globals.scss";
-import Header from "@/widgets/Header/ui";
+import { Header } from "@/widgets";
+import { ThemeChanger } from "@/features";
 
 export const metadata: Metadata = {
 	title: "Story Craft",
@@ -14,9 +15,11 @@ type Props = {
 export default function RootLayout({ children }: Props) {
 	return (
 		<html lang="en">
-			<body>
-				<Header />
-				{children}
+			<body suppressHydrationWarning>
+				<ThemeChanger> 
+					<Header />
+					{children}
+				</ThemeChanger>
 			</body>
 		</html>
 	);
