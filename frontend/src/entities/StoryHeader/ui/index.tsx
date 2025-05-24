@@ -1,25 +1,27 @@
+"use client";
+
+import { useStore } from "@/shared/store";
+import { useShallow } from "zustand/react/shallow";
 import styles from "./StoryHeader.module.scss";
 
-type StoryHeaderProps = {
-  title: string;
-  sceneCount: number;
-  description?: string;
-  onChangeTitle?: (val: string) => void;
-  onChangeDescription?: (val: string) => void;
-  editable?: boolean;
-};
+type Mode = "editor" | "read";
 
-export default function StoryHeader({
-  title,
-  sceneCount,
-  description,
-  onChangeTitle,
-  onChangeDescription,
-  editable = false,
-}: StoryHeaderProps) {
+export default function StoryHeader({ mode = "read" }: { mode?: Mode }) {
+  const { title, setTitle, description, setDescription, scenes } = useStore(
+    useShallow((state) => ({
+      title: state.title,
+      setTitle: state.setTitle,
+      description: state.description,
+      setDescription: state.setDescription,
+      scenes: state.scenes,
+    }))
+  );
+
+  const editable = mode === "editor";
+
   return (
     <div className={styles.container}>
-      {editable && onChangeTitle ? (
+      {editable ? (
         <div className={styles.titleRow}>
           <div className={styles.inputGroup}>
             <label htmlFor="story-title" className={styles.label}>
@@ -31,20 +33,24 @@ export default function StoryHeader({
               className={styles.titleInput}
               aria-label="Название истории"
               value={title}
-              onChange={(e) => onChangeTitle(e.target.value)}
+              onChange={(e) => setTitle(e.target.value)}
               placeholder="Название истории"
             />
           </div>
-          <div className={styles.sceneCount}>Количество сцен: {sceneCount}</div>
+          <div className={styles.sceneCount}>
+            Количество сцен: {scenes.length}
+          </div>
         </div>
       ) : (
         <div className={styles.titleRow}>
           <h2 className={styles.titleText}>{title}</h2>
-          <div className={styles.sceneCount}>Количество сцен: {sceneCount}</div>
+          <div className={styles.sceneCount_read}>
+            Количество сцен: {scenes.length}
+          </div>
         </div>
       )}
 
-      {editable && onChangeDescription && (
+      {editable && (
         <div className={styles.inputGroup}>
           <label htmlFor="story-description" className={styles.label}>
             Описание истории
@@ -53,7 +59,7 @@ export default function StoryHeader({
             id="story-description"
             className={styles.description}
             value={description}
-            onChange={(e) => onChangeDescription(e.target.value)}
+            onChange={(e) => setDescription(e.target.value)}
             placeholder="Описание истории"
             aria-label="Описание истории"
           />

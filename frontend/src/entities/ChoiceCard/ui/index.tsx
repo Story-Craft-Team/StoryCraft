@@ -1,8 +1,9 @@
 "use client";
 import { IChoice, IScene } from "@/shared/lib/types";
 import { useStore } from "@/shared/store";
-import CustomCheckbox from "@/shared/ui/CustomCheckbox/ui";
+import { CustomCheckbox } from "@/shared/ui";
 import { FaCheck } from "react-icons/fa";
+import { useShallow } from "zustand/react/shallow";
 import styles from "./ChoiceCard.module.scss";
 
 interface ChoiceCardProps {
@@ -12,10 +13,15 @@ interface ChoiceCardProps {
 }
 
 const ChoiceCard = ({ scene, choice, index }: ChoiceCardProps) => {
-  const scenes = useStore((state) => state.scenes);
-  const setChoiceText = useStore((state) => state.setChoiceText);
-  const setChoiceNextScene = useStore((state) => state.setChoiceNextScene);
-  const setChoiceAccess = useStore((state) => state.setChoiceAccess);
+  const { scenes, setChoiceText, setChoiceNextSceneId, setChoiceAccess } =
+    useStore(
+      useShallow((state) => ({
+        scenes: state.scenes,
+        setChoiceText: state.setChoiceText,
+        setChoiceNextSceneId: state.setChoiceNextSceneId,
+        setChoiceAccess: state.setChoiceAccess,
+      }))
+    );
 
   return (
     <div className={styles.wrapper}>
@@ -34,7 +40,7 @@ const ChoiceCard = ({ scene, choice, index }: ChoiceCardProps) => {
         <select
           value={choice.nextScene}
           onChange={(e) =>
-            setChoiceNextScene(scene.id, choice.id, Number(e.target.value))
+            setChoiceNextSceneId(scene.id, choice.id, Number(e.target.value))
           }
           className={styles.select}
         >

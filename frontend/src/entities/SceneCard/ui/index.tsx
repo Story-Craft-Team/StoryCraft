@@ -1,12 +1,15 @@
 "use client";
 
-import { ChoiceCard } from "@/entities/ChoiceCard";
-import { AddChoiceButton } from "@/features/Editor/ui/AddChoiceButton";
-import { RemoveSceneButton } from "@/features/Editor/ui/RemoveSceneButton";
+import { ChoiceCard } from "@/entities";
 import { IScene } from "@/shared/lib/types";
 import { useStore } from "@/shared/store";
-import CustomCheckbox from "@/shared/ui/CustomCheckbox/ui";
+import {
+  AddChoiceButton,
+  CustomCheckbox,
+  RemoveSceneButton,
+} from "@/shared/ui";
 import { FaCheck } from "react-icons/fa";
+import { useShallow } from "zustand/react/shallow";
 import styles from "./SceneCard.module.scss";
 
 interface SceneProps {
@@ -14,11 +17,21 @@ interface SceneProps {
 }
 
 export default function SceneCard({ scene }: SceneProps) {
-  const scenes = useStore((state) => state.scenes);
-  const setSceneTitle = useStore((state) => state.setSceneTitle);
-  const setSceneDescription = useStore((state) => state.setSceneDescription);
-  const setSceneMaxChoices = useStore((state) => state.setSceneMaxChoices);
-  const setSceneIsEnd = useStore((state) => state.setSceneIsEnd);
+  const {
+    scenes,
+    setSceneTitle,
+    setSceneDescription,
+    setSceneMaxChoices,
+    setSceneIsEnd,
+  } = useStore(
+    useShallow((state) => ({
+      scenes: state.scenes,
+      setSceneTitle: state.setSceneTitle,
+      setSceneDescription: state.setSceneDescription,
+      setSceneMaxChoices: state.setSceneMaxChoices,
+      setSceneIsEnd: state.setSceneIsEnd,
+    }))
+  );
 
   return (
     <div className={styles.container}>

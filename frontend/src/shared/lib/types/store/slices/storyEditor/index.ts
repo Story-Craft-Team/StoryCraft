@@ -20,7 +20,7 @@ type StoryEditorAction = {
   setSceneImage: (sceneId: number, image: string) => void;
 
   setChoiceText: (sceneId: number, choiceId: number, text: string) => void;
-  setChoiceNextScene: (
+  setChoiceNextSceneId: (
     sceneId: number,
     choiceId: number,
     nextSceneId: number
@@ -30,7 +30,6 @@ type StoryEditorAction = {
   removeScene: (sceneId: number) => void;
   removeChoice: (sceneId: number, choiceId: number) => void;
 
-  getSceneTitle: (sceneId: number) => string;
 };
 
 export type StoryEditorSlice = IStoryEditor & StoryEditorAction;

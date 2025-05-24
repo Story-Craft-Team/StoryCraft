@@ -50,7 +50,7 @@
 .titleText {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #f0f0f0;
+  color: #ff5722; /* оранжевый акцент */
   margin: 0;
 }
 
@@ -60,6 +60,15 @@
   color: #ff5722; /* оранжевый акцент */
   white-space: nowrap;
   margin-bottom: 0.7rem;
+  padding-right: 2rem;
+}
+
+.sceneCount_read {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #ff5722; /* оранжевый акцент */
+  white-space: nowrap;
+  margin-bottom: 0rem;
   padding-right: 2rem;
 }
 

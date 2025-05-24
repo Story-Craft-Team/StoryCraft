@@ -13,9 +13,6 @@ export const storyEditorSlice: StateCreator<
   description: "Вас обманули на вес, вы ищете плага",
   image: "",
   isPublic: false,
-
-  nextSceneId: 4, //TODO удалить наверно
-
   scenes: [
     {
       id: 1,
@@ -56,7 +53,7 @@ export const storyEditorSlice: StateCreator<
       choices: [],
     },
   ],
-// операции 
+  // операции
   setTitle: (title) => set({ title }),
   setAuthor: (author) => set({ author }),
   setAuthorId: (authorId) => set({ authorId }),
@@ -190,7 +187,11 @@ export const storyEditorSlice: StateCreator<
       ),
     }),
 
-  setChoiceNextScene: (sceneId, choiceId, nextSceneId) => //TODO добавить ID в название
+  setChoiceNextSceneId: (
+    sceneId,
+    choiceId,
+    nextSceneId
+  ) =>
     set({
       scenes: get().scenes.map((scene) =>
         scene.id === sceneId
@@ -219,7 +220,4 @@ export const storyEditorSlice: StateCreator<
           : scene
       ),
     }),
-
-  getSceneTitle: (sceneId: number) =>
-    get().scenes.find((scene) => scene.id === sceneId)?.title || "", // TODO удалить
 });

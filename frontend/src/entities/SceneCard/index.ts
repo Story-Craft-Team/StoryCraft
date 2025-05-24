@@ -1,1 +1,1 @@
-export { default as SceneCard } from "./ui";
+export { default } from "./ui";
