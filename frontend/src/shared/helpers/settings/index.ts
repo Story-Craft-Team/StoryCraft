@@ -1,6 +1,4 @@
 import { useStore } from "@/shared/store";
-import { ChangeEvent } from "react";
-
 /*
     An add-on in the form of a useSettingsChange custom hook that allows you to use the useStore hook inside the ThemeChange and LanguageChange
 */
@@ -13,9 +11,8 @@ export const useSettingsChange = () => {
         The function accepts the following parameters:
         @e - properties of the target object
     */
-    function ThemeChange(e: ChangeEvent<HTMLInputElement>) {
-        const Theme = e.target.value === "0"? "dark" : "light" //definition the changed theme based on the value of the target object (input)
-        setTheme(Theme)
+    function ThemeChange(value: string) {
+        setTheme(value) //definition the changed theme based on the value of the target object (select)
     }
 
     /*
@@ -23,10 +20,8 @@ export const useSettingsChange = () => {
         The function accepts the following parameters:
         @e - properties of the target object
     */
-    function LanguageChange(e: ChangeEvent<HTMLInputElement>){
-        const Language = e.target.value === "0"? "ru" : "en" //definition the changed language based on the value of the target object (input)
-        setLanguage(Language)
-        localStorage.setItem('Language', Language)
+    function LanguageChange(value: string){
+        setLanguage(value) //definition the changed theme based on the value of the target object (select)
     }
     
     return {ThemeChange, LanguageChange}

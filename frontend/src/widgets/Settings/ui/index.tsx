@@ -1,30 +1,30 @@
 'use client'
 
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 import s from './Settings.module.scss'
 import { useStore } from '@/shared/store';
-import { CustomInput } from '@/shared/ui';
-import { SettingsContainer } from '@/shared/ui';
 import { useSettingsChange } from '@/shared/helpers';
+import { CustomSelect } from '@/shared/ui';
 
 export default function Settings(){
     const { language, theme } = useStore(state => state.settings)
-    const {LanguageChange, ThemeChange} = useSettingsChange()
+    const { LanguageChange, ThemeChange } = useSettingsChange()
 
     return (
-        <div>
+        <div className={s.container}>
             <h3>Язык интерфейса</h3>
-            <SettingsContainer>
-                <h4 className={s.alert}>Русский</h4>
-                <CustomInput className={s.inp} type="range" onChange={(e: ChangeEvent<HTMLInputElement>) => LanguageChange(e)} min="0" max="1" defaultValue={language === "ru"? 0 : 1}/>
-                <h4 className={s.alert}>English</h4>
-            </SettingsContainer>
+            <CustomSelect 
+                onChange={(value: string) => LanguageChange(value)} 
+                options={[{content: "Русский", value: "ru", disabled: false}, {content: "English (в разработке)", value: "en", disabled: true}]} 
+                defaultValue={language === "ru"? {content: "Русский", value: "ru", disabled: false}: {content: "English", value: "en", disabled: true}}
+            />
+            <hr/>
             <h3>Тема интерфейса</h3>
-            <SettingsContainer>
-                <h4 className={s.alert}>Темная</h4>
-                <CustomInput className={s.inp} type="range" onChange={(e: ChangeEvent<HTMLInputElement>) => ThemeChange(e)} min="0" max="0" defaultValue={theme === "dark"? 0: 1}/>
-                <h4 className={s.alert}>Светлая (в разработке)</h4>
-            </SettingsContainer>
+            <CustomSelect 
+                onChange={(value: string) => ThemeChange(value)} 
+                options={[{content: "Темная", value: "dark", disabled: false}, {content: "Светлая (в разработке)", value: "light", disabled: true}]}
+                defaultValue={theme === "dark"? {content: "Темная", value: "dark", disabled: false}:  {content: "Светлая", value: "light", disabled: true}}
+            />
         </div>
     );
 };
